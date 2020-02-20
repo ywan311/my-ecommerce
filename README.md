@@ -1,2 +1,7 @@
-# my-ecommerce
+# **my-ecommerce**
 쇼핑몰 만들어보기
+spring-boot + jpa
+1. 프로젝트 생성 및 데이터베이스 설계(진행중)
+2. 프로젝트 초기설정 및 작동 테스트(o)
+3. 엔티티 생성 및 기본적인 crud 구현
+
