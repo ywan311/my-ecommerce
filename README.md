@@ -7,6 +7,7 @@ spring-boot + jpa
 - spring boot 2.2.x 버전에서는 .properties 에 MySQL5InnoDBDialect추가시 오류(engine innodb가 h2에서도 안됨)
 - 외래키 생성시에 transactional 어노테이션이 반드시 필요(servcie, test등등) -> 테이블 및 객체 생성이 순차적으로 이루어져야함
 3. 엔티티 생성 및 기본적인 crud 구현
+- comment 생성 crud 구현 (테스트 미구현)
 
 ***
 - 기본적인 git workflow 대로 브랜치 생성해서 작업해보기 
