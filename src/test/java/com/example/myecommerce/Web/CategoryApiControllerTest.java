@@ -25,13 +25,13 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
-public class ProductApiControllerTest {
+public class CategoryApiControllerTest {
     @LocalServerPort
     private int port;
 
@@ -62,11 +62,10 @@ public class ProductApiControllerTest {
     @After
     public void tearDown() throws Exception{
         productRepository.deleteAll();
-        categoryRepository.deleteAll();
     }
 
     @Test
-    public void Product_category등록테스트() throws Exception{
+    public void Product_등록테스트() throws Exception{
         //given
         String title = "상품명 테스트";
         String content = "상품내용 테스트";
@@ -95,35 +94,6 @@ public class ProductApiControllerTest {
         assertThat(list.get(0).getComments().isEmpty()).isTrue();
         assertThat(list.get(0).getCategory().getId()).isEqualTo(test.getId());
     }
-    @Test
-    public void Product_category없이등록테스트() throws Exception{
-        //given
-        String title = "상품명 테스트";
-        String content = "상품내용 테스트";
-        int price = 1515;
-
-        ProductSaveReqDto dto = ProductSaveReqDto.builder()
-                .title(title)
-                .content(content)
-                .price(price)
-                .build();
-
-        String url  = "http://localhost:"+port+"/api/v1/product";
-
-        //when
-        mvc.perform(post(url)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new ObjectMapper().writeValueAsString(dto)))
-                .andExpect(status().isOk());
-
-        //then
-        List<Product> list = productRepository.findAll();
-        assertThat(list.get(0).getTitle()).isEqualTo(title);
-        assertThat(list.get(0).getContent()).isEqualTo(content);
-        assertThat(list.get(0).getPrice()).isEqualTo(price);
-        assertThat(list.get(0).getComments().isEmpty()).isTrue();
-        assertThat(list.get(0).getCategory()).isNull();
-    }
 
     @Test
     public void Product_수정테스트() throws Exception{
@@ -133,13 +103,13 @@ public class ProductApiControllerTest {
         String expectedContent = "상품내용 수정 테스트";
         int expectedPrice = 123456;
 
-       Product savedProduct = productRepository.save(Product.builder()
-           .title("상품 수정전")
-           .content("상품내용 수정전")
-           .price(123)
-           .build());
+        Product savedProduct = productRepository.save(Product.builder()
+                .title("상품 수정전")
+                .content("상품내용 수정전")
+                .price(123)
+                .build());
 
-       Long updateId = savedProduct.getId();
+        Long updateId = savedProduct.getId();
         ProductUpdateReqDto dto = ProductUpdateReqDto.builder()
                 .title(expectedTitle)
                 .content(expectedContent)
@@ -162,72 +132,5 @@ public class ProductApiControllerTest {
         assertThat(list.get(0).getComments().isEmpty()).isTrue();
         assertThat(list.get(0).getCategory()).isNull();
     }
-    @Test
-    public void Product_카테고리수정테스트() throws Exception{
-        //given
-
-        String expectedTitle = "카테고리수정";
-
-        Product savedProduct = productRepository.save(Product.builder()
-                .title("상품 수정전")
-                .content("상품내용 수정전")
-                .price(123)
-                .category(test)
-                .build());
-        System.out.println(savedProduct+"????????");
-
-        Category updatedCategory = categoryRepository.save(Category.builder()
-                .title(expectedTitle)
-                .build());
-
-
-        Long updateId = savedProduct.getId();
-
-        ProductUpdateReqDto dto = ProductUpdateReqDto.builder()
-                .title("상품 수정후")
-                .content("상품내용 수정후")
-                .price(123)
-                .categoryId(updatedCategory.getId())
-                .build();
-
-        String url  = "http://localhost:"+port+"/api/v1/product/"+updateId;
-
-        //when
-        mvc.perform(put(url)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new ObjectMapper().writeValueAsString(dto)))
-                .andExpect(status().isOk());
-
-        //then
-        List<Product> list = productRepository.findAll();
-        assertThat(list.get(0).getCategory().getTitle()).isEqualTo(expectedTitle);
-        assertThat(list.get(0).getCategory().getId()).isEqualTo(updatedCategory.getId());
-    }
-
-    @Test
-    public void 상품삭제테스트() throws Exception{
-        //given
-        Product savedProduct = productRepository.save(Product.builder()
-                .title("삭제 테스트")
-                .content("삭제 테스트")
-                .price(123)
-                .category(test)
-                .build());
-
-        Long updateId = savedProduct.getId();
-
-        String url  = "http://localhost:"+port+"/api/v1/product/"+updateId;
-
-        //when
-        mvc.perform(delete(url)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new ObjectMapper().writeValueAsString(null)))
-                .andExpect(status().isOk());
-
-        //then
-        assertThat(productRepository.findAll()).isEmpty();
-        assertThat(test).isEqualTo(categoryRepository.findById(test.getId()).get());
-    }
-
 
 }

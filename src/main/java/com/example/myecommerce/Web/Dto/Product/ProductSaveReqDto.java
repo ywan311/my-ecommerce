@@ -14,16 +14,24 @@ public class ProductSaveReqDto {
     private String title;
     private String content;
     private int price;
-    private Category category;
+    private Long categoryId;
 
     @Builder
-    public ProductSaveReqDto(String title, String content, int price, Category category) {
+    public ProductSaveReqDto(String title, String content, int price, Long categoryId) {
         this.title = title;
         this.content = content;
         this.price = price;
-        this.category = category;
+        this.categoryId = categoryId;
     }
 
+    public Product toEntity(Category category){
+        return Product.builder()
+                .title(title)
+                .content(content)
+                .price(price)
+                .category(category)
+                .build();
+    }
     public Product toEntity(){
         return Product.builder()
                 .title(title)

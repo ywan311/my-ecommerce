@@ -58,4 +58,7 @@ public class Product extends BaseTimeEntity {
         this.content = content;
         this.price = price;
     }
+    public void changeCategory(Category category){
+        this.category = category;
+    }
 }

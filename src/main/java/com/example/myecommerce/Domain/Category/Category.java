@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,12 +24,11 @@ public class Category extends BaseTimeEntity {
 
     @OneToMany(mappedBy = "category")
     @JsonManagedReference
-    private Set<Product> products;
+    private Set<Product> products = new HashSet<>();
 
     @Builder
-    public Category(String title, Set<Product> products) {
+    public Category(String title) {
         this.title = title;
-        this.products = products;
     }
 
     public void addProduct(Product product){

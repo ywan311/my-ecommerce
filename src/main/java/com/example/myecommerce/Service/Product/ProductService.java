@@ -1,5 +1,7 @@
 package com.example.myecommerce.Service.Product;
 
+import com.example.myecommerce.Domain.Category.Category;
+import com.example.myecommerce.Domain.Category.CategoryRepository;
 import com.example.myecommerce.Domain.Comment.CommentRepository;
 import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Domain.Product.ProductRepository;
@@ -20,11 +22,14 @@ import java.util.stream.Collectors;
 @Service
 public class ProductService {
     private final ProductRepository productRepository;
-    private final CommentRepository commentRepository;
+    private final CategoryRepository categoryRepository;
 
     @Transactional
     public Long save(ProductSaveReqDto dto){
-        return productRepository.save(dto.toEntity()).getId();
+        if(dto.getCategoryId()!=null){
+            Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(()-> new IllegalArgumentException("카테로리가 없습니다. id:"+dto.getCategoryId()));
+            return productRepository.save(dto.toEntity(category)).getId();
+        }else return productRepository.save(dto.toEntity()).getId();
     }
 
     @Transactional
@@ -44,6 +49,8 @@ public class ProductService {
     public Long update(Long id, ProductUpdateReqDto dto){
         Product entity = productRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("상품이 없습니다. id:"+id));
         entity.update(dto.getTitle(),dto.getContent(),dto.getPrice());
+        if(dto.getCategoryId()!=null&&entity.getCategory().getId()!=dto.getCategoryId())entity.changeCategory(categoryRepository.findById(dto.getCategoryId())
+                .orElseThrow(()-> new IllegalArgumentException("카테로리가 없습니다. id:"+dto.getCategoryId())));
         return id;
     }
 

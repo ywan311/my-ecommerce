@@ -96,6 +96,7 @@ public class CommentApiControllerTest {
     @After
     public void cleanUp(){
         productRepository.deleteAll();
+        commentRepository.deleteAll();
     }
 
 

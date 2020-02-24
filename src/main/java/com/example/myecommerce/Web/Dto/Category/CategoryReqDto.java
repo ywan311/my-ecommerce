@@ -15,9 +15,9 @@ public class CategoryReqDto {
         this.title = title;
     }
 
-    public Category toEntity(String title){
+    public Category toEntity(){
         return Category.builder()
-                .title(title)
+                .title(this.title)
                 .build();
     }
 }
