@@ -1,25 +1,30 @@
 package com.example.myecommerce.Web;
-import com.example.myecommerce.Domain.Comment.Comment;
-import com.example.myecommerce.Domain.Comment.CommentRepository;
+
 import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Domain.Product.ProductRepository;
-import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;
 import com.example.myecommerce.Web.Dto.Product.ProductSaveReqDto;
+import com.example.myecommerce.Web.Dto.Product.ProductUpdateReqDto;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.MediaType;
 import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.context.WebApplicationContext;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
@@ -29,13 +34,17 @@ public class ProductApiControllerTest {
     private int port;
 
     @Autowired
-    private TestRestTemplate restTemplate;
-
-    @Autowired
     private ProductRepository productRepository;
 
     @Autowired
-    private CommentRepository commentRepository;
+    private WebApplicationContext context;
+
+    private MockMvc mvc;
+
+    @Before
+    public void setUp(){
+        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+    }
 
     @After
     public void tearDown() throws Exception{
@@ -43,7 +52,7 @@ public class ProductApiControllerTest {
     }
 
     @Test
-    public void Product_등록테스트(){
+    public void Product_등록테스트() throws Exception{
         //given
         String title = "상품명 테스트";
         String content = "상품내용 테스트";
@@ -58,54 +67,56 @@ public class ProductApiControllerTest {
         String url  = "http://localhost:"+port+"/api/v1/product";
 
         //when
-        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url,dto,Long.class);
-
+        mvc.perform(post(url)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(dto)))
+                .andExpect(status().isOk());
 
         //then
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody()).isGreaterThan(0L);
-
         List<Product> list = productRepository.findAll();
         assertThat(list.get(0).getTitle()).isEqualTo(title);
         assertThat(list.get(0).getContent()).isEqualTo(content);
         assertThat(list.get(0).getPrice()).isEqualTo(price);
         assertThat(list.get(0).getComments().isEmpty()).isTrue();
+        assertThat(list.get(0).getCategory()).isNull();
     }
+
     @Test
-    public void comment_등록테스트(){
+    public void Product_수정테스트() throws Exception{
         //given
-        String title = "상품명 테스트";
-        String content = "상품내용 테스트";
-        int price = 1515;
 
-        String cTitle ="댓글명 테스트";
-        String cContent ="댓글내용 테스트";
+        String expectedTitle = "상품명 수정 테스트";
+        String expectedContent = "상품내용 수정 테스트";
+        int expectedPrice = 123456;
 
-        Product testP =productRepository.save(Product.builder()
-                .title(title)
-                .content(content)
-                .price(price)
-                .build());
+       Product savedProduct = productRepository.save(Product.builder()
+           .title("상품 수정전")
+           .content("상품내용 수정전")
+           .price(123)
+           .build());
 
-        CommentReqDto commentDto = CommentReqDto.builder()
-                .title(cTitle)
-                .content(cContent)
+       Long updateId = savedProduct.getId();
+        ProductUpdateReqDto dto = ProductUpdateReqDto.builder()
+                .title(expectedTitle)
+                .content(expectedContent)
+                .price(expectedPrice)
                 .build();
 
-        String url  = "http://localhost:"+port+"/api/v1/product/"+testP.getId();
+        String url  = "http://localhost:"+port+"/api/v1/product/"+updateId;
 
         //when
-        ResponseEntity<Long> responseEntity = restTemplate.postForEntity(url,commentDto,Long.class);
-
+        mvc.perform(put(url)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(dto)))
+                .andExpect(status().isOk());
 
         //then
-        assertThat(responseEntity.getStatusCode()).isEqualTo(HttpStatus.OK);
-        assertThat(responseEntity.getBody()).isGreaterThan(0L);
-
         List<Product> list = productRepository.findAll();
-        Comment test  = commentRepository.findAll().get(0);
-        assertThat(list.get(0).getComments().contains(test)).isTrue();
+        assertThat(list.get(0).getTitle()).isEqualTo(expectedTitle);
+        assertThat(list.get(0).getContent()).isEqualTo(expectedContent);
+        assertThat(list.get(0).getPrice()).isEqualTo(expectedPrice);
+        assertThat(list.get(0).getComments().isEmpty()).isTrue();
+        assertThat(list.get(0).getCategory()).isNull();
     }
-
 
 }

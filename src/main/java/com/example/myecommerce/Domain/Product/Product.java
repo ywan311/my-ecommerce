@@ -1,7 +1,9 @@
 package com.example.myecommerce.Domain.Product;
 
 import com.example.myecommerce.Domain.BaseTimeEntity;
+import com.example.myecommerce.Domain.Category.Category;
 import com.example.myecommerce.Domain.Comment.Comment;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,7 +17,7 @@ import java.util.Set;
 @Getter
 @NoArgsConstructor
 @Entity
-@ToString
+@ToString(exclude = "category")
 public class Product extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,19 +36,21 @@ public class Product extends BaseTimeEntity {
     @JsonManagedReference
     private Set<Comment> comments = new HashSet<>();
 
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "category_id")
+    private Category category;
+
     @Builder
-    public Product(String title, String content, int price) {
+    public Product(String title, String content, int price, Category category) {
         this.title = title;
         this.content = content;
         this.price = price;
+        this.category = category;
     }
 
-    public void addComment(String title,String content){
-        this.comments.add(new Comment().builder()
-        .product(this)
-        .title(title)
-        .content(content)
-        .build());
+    public void addComment(Comment comment){
+        this.comments.add(comment);
     }
 
     public void update(String title, String content, int price){

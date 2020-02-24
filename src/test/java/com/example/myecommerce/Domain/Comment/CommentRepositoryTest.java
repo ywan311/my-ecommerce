@@ -2,7 +2,9 @@ package com.example.myecommerce.Domain.Comment;
 
 import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Domain.Product.ProductRepository;
+
 import static org.assertj.core.api.Assertions.assertThat;
+
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,17 +26,18 @@ public class CommentRepositoryTest {
     ProductRepository productRepository;
 
     @After
-    public void cleaup(){
+    public void cleaup() {
         commentRepository.deleteAll();
         productRepository.deleteAll();
     }
 
     @Test
-    public void 댓글저장_불러오기(){
+    public void 댓글저장_불러오기() {
         //given
-        String commentContent ="댓글 테스트";
-        String prodTitle ="상품명 테스트";
-        String prodContent ="상품 내용 테스트";
+        String commentTitle = "댓글명 테스트";
+        String commentContent = "댓글 테스트";
+        String prodTitle = "상품명 테스트";
+        String prodContent = "상품 내용 테스트";
         int prodPrice = 10000;
 
         Product prod = productRepository.save(
@@ -44,11 +47,12 @@ public class CommentRepositoryTest {
                         .price(prodPrice)
                         .build());
 
-       commentRepository.save(
+        commentRepository.save(
                 Comment.builder()
-                .product(prod)
-                .content(commentContent)
-                .build());
+                        .title(commentTitle)
+                        .product(prod)
+                        .content(commentContent)
+                        .build());
 
         //when
         List<Comment> comments = commentRepository.findAll();
@@ -56,6 +60,7 @@ public class CommentRepositoryTest {
         //then
         Comment test = comments.get(0);
         assertThat(test.getProduct().getId()).isEqualTo(prod.getId());
+        assertThat(test.getTitle()).isEqualTo(commentTitle);
         assertThat(test.getContent()).isEqualTo(commentContent);
 
     }

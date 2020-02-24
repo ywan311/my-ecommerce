@@ -52,11 +52,5 @@ public class ProductService {
         Product entity = productRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("상품이 없습니다. id:"+id));
         productRepository.delete(entity);
     }
-    @Transactional
-    public Long addComment(Long id, CommentReqDto dto){
-        Product entity = productRepository.findById(id).orElseThrow(()-> new IllegalArgumentException("상품이 없습니다. id:"+id));
-        entity.addComment(dto.getTitle(),dto.getContent());
-        commentRepository.saveAll(entity.getComments());
-        return entity.getId();
-    }
+
 }

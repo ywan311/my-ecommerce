@@ -1,22 +1,19 @@
-package com.example.myecommerce.Web.Dto.Comment;
+package com.example.myecommerce.Web.Dto.Category;
 
-import com.example.myecommerce.Domain.Comment.Comment;
+import com.example.myecommerce.Domain.Category.Category;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
-public class CommentResDto {
+public class CategoryResDto {
     private Long id;
     private String title;
-    private String content;
     private LocalDateTime modifiedDate;
 
-    public CommentResDto(Comment entity) {
+    public CategoryResDto(Category entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
-        this.content = entity.getContent();
         this.modifiedDate = entity.getModifiedDate();
     }
 }

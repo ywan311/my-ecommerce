@@ -24,7 +24,9 @@ public class CommentService {
     @Transactional
     public Long save(Long prodId, CommentReqDto dto){
         Product product = productRepository.findById(prodId).orElseThrow(()-> new IllegalArgumentException("상품이 없습니다. id:"+prodId));
-        return commentRepository.save(dto.toEntity(product,dto.getTitle(),dto.getContent())).getId();
+        Comment newComment = commentRepository.save(dto.toEntity(product,dto.getTitle(),dto.getContent()));
+        product.addComment(newComment);
+        return newComment.getId();
     }
 
     public Long update(Long id, CommentReqDto dto){

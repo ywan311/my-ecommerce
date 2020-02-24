@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Getter
 public class ProductResDto {
+    private Long id;
     private String title;
     private String content;
     private int price;
@@ -20,6 +21,7 @@ public class ProductResDto {
     private LocalDateTime modifiedDate;
 
     public ProductResDto(Product entity) {
+        this.id = entity.getId();
         this.title = entity.getTitle();
         this.content = entity.getContent();
         this.price = entity.getPrice();
