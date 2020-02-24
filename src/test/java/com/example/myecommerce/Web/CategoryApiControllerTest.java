@@ -50,22 +50,22 @@ public class CategoryApiControllerTest {
     private Category test;
 
     @Before
-    public void setUp(){
+    public void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
     @Before
-    public void makeCate(){
-        test =categoryRepository.save(Category.builder().title("카테고리 테스트").build());
+    public void makeCate() {
+        test = categoryRepository.save(Category.builder().title("카테고리 테스트").build());
     }
 
     @After
-    public void tearDown() throws Exception{
+    public void tearDown() throws Exception {
         productRepository.deleteAll();
     }
 
     @Test
-    public void Product_등록테스트() throws Exception{
+    public void Product_등록테스트() throws Exception {
         //given
         String title = "상품명 테스트";
         String content = "상품내용 테스트";
@@ -78,7 +78,7 @@ public class CategoryApiControllerTest {
                 .categoryId(test.getId())
                 .build();
 
-        String url  = "http://localhost:"+port+"/api/v1/product";
+        String url = "http://localhost:" + port + "/api/v1/product";
 
         //when
         mvc.perform(post(url)
@@ -96,7 +96,7 @@ public class CategoryApiControllerTest {
     }
 
     @Test
-    public void Product_수정테스트() throws Exception{
+    public void Product_수정테스트() throws Exception {
         //given
 
         String expectedTitle = "상품명 수정 테스트";
@@ -116,7 +116,7 @@ public class CategoryApiControllerTest {
                 .price(expectedPrice)
                 .build();
 
-        String url  = "http://localhost:"+port+"/api/v1/product/"+updateId;
+        String url = "http://localhost:" + port + "/api/v1/product/" + updateId;
 
         //when
         mvc.perform(put(url)
