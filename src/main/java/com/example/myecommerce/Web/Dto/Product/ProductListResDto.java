@@ -1,12 +1,9 @@
 package com.example.myecommerce.Web.Dto.Product;
 
-import com.example.myecommerce.Domain.Comment.Comment;
 import com.example.myecommerce.Domain.Product.Product;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.Set;
 
 @Getter
 public class ProductListResDto {

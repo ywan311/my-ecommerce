@@ -1,11 +1,9 @@
-package com.example.myecommerce.Web;
+package com.example.myecommerce.Web.ApiController;
 
 import com.example.myecommerce.Domain.Category.Category;
 import com.example.myecommerce.Domain.Category.CategoryRepository;
-import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Domain.Product.ProductRepository;
-import com.example.myecommerce.Web.Dto.Product.ProductSaveReqDto;
-import com.example.myecommerce.Web.Dto.Product.ProductUpdateReqDto;
+import com.example.myecommerce.Web.Dto.Category.CategoryReqDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
 import org.junit.Before;
@@ -31,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
-public class CategoryApiControllerTest {
+public class ProductApiControllerTest {
     @LocalServerPort
     private int port;
 
@@ -47,38 +45,29 @@ public class CategoryApiControllerTest {
 
     private MockMvc mvc;
 
-    private Category test;
 
     @Before
     public void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
     }
 
-    @Before
-    public void makeCate() {
-        test = categoryRepository.save(Category.builder().title("카테고리 테스트").build());
-    }
 
     @After
     public void tearDown() throws Exception {
         productRepository.deleteAll();
+        categoryRepository.deleteAll();
     }
 
     @Test
-    public void Product_등록테스트() throws Exception {
+    public void category등록테스트() throws Exception {
         //given
         String title = "상품명 테스트";
-        String content = "상품내용 테스트";
-        int price = 1515;
 
-        ProductSaveReqDto dto = ProductSaveReqDto.builder()
+        CategoryReqDto dto = CategoryReqDto.builder()
                 .title(title)
-                .content(content)
-                .price(price)
-                .categoryId(test.getId())
                 .build();
 
-        String url = "http://localhost:" + port + "/api/v1/product";
+        String url = "http://localhost:" + port + "/api/v1/category";
 
         //when
         mvc.perform(post(url)
@@ -87,36 +76,21 @@ public class CategoryApiControllerTest {
                 .andExpect(status().isOk());
 
         //then
-        List<Product> list = productRepository.findAll();
+        List<Category> list = categoryRepository.findAll();
         assertThat(list.get(0).getTitle()).isEqualTo(title);
-        assertThat(list.get(0).getContent()).isEqualTo(content);
-        assertThat(list.get(0).getPrice()).isEqualTo(price);
-        assertThat(list.get(0).getComments().isEmpty()).isTrue();
-        assertThat(list.get(0).getCategory().getId()).isEqualTo(test.getId());
     }
 
     @Test
-    public void Product_수정테스트() throws Exception {
+    public void 카테고리수정테스트() throws Exception {
         //given
 
-        String expectedTitle = "상품명 수정 테스트";
-        String expectedContent = "상품내용 수정 테스트";
-        int expectedPrice = 123456;
+        String expectedTitle = "카테고리수정";
+        Category savedCate = categoryRepository.save(Category.builder().title("수정전").build());
 
-        Product savedProduct = productRepository.save(Product.builder()
-                .title("상품 수정전")
-                .content("상품내용 수정전")
-                .price(123)
-                .build());
+        Long updateId = savedCate.getId();
+        CategoryReqDto dto = CategoryReqDto.builder().title(expectedTitle).build();
 
-        Long updateId = savedProduct.getId();
-        ProductUpdateReqDto dto = ProductUpdateReqDto.builder()
-                .title(expectedTitle)
-                .content(expectedContent)
-                .price(expectedPrice)
-                .build();
-
-        String url = "http://localhost:" + port + "/api/v1/product/" + updateId;
+        String url = "http://localhost:" + port + "/api/v1/category/" + updateId;
 
         //when
         mvc.perform(put(url)
@@ -125,12 +99,10 @@ public class CategoryApiControllerTest {
                 .andExpect(status().isOk());
 
         //then
-        List<Product> list = productRepository.findAll();
+        List<Category> list = categoryRepository.findAll();
         assertThat(list.get(0).getTitle()).isEqualTo(expectedTitle);
-        assertThat(list.get(0).getContent()).isEqualTo(expectedContent);
-        assertThat(list.get(0).getPrice()).isEqualTo(expectedPrice);
-        assertThat(list.get(0).getComments().isEmpty()).isTrue();
-        assertThat(list.get(0).getCategory()).isNull();
+        assertThat(list.get(0).getId()).isEqualTo(updateId);
     }
+
 
 }

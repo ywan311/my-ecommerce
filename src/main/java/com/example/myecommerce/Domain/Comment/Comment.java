@@ -2,6 +2,7 @@ package com.example.myecommerce.Domain.Comment;
 
 import com.example.myecommerce.Domain.BaseTimeEntity;
 import com.example.myecommerce.Domain.Product.Product;
+import com.example.myecommerce.Domain.User.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Getter;
@@ -29,6 +30,11 @@ public class Comment extends BaseTimeEntity {
 
     @Column
     private String content;
+//
+//    @ManyToOne
+//    @JsonBackReference
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
     @Builder
     public Comment(Product product,String title, String content) {

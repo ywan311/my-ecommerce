@@ -1,4 +1,4 @@
-package com.example.myecommerce.Web;
+package com.example.myecommerce.Web.ApiController;
 
 import com.example.myecommerce.Service.Product.ProductService;
 import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;

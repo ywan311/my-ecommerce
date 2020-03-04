@@ -1,4 +1,4 @@
-package com.example.myecommerce.Web;
+package com.example.myecommerce.Web.ApiController;
 
 import com.example.myecommerce.Domain.Comment.Comment;
 import com.example.myecommerce.Domain.Comment.CommentRepository;

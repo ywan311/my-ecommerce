@@ -3,6 +3,7 @@ package com.example.myecommerce.Domain.Product;
 import com.example.myecommerce.Domain.BaseTimeEntity;
 import com.example.myecommerce.Domain.Category.Category;
 import com.example.myecommerce.Domain.Comment.Comment;
+import com.example.myecommerce.Domain.User.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
@@ -40,6 +41,11 @@ public class Product extends BaseTimeEntity {
     @JsonBackReference
     @JoinColumn(name = "category_id")
     private Category category;
+//
+//    @ManyToOne
+//    @JsonBackReference
+//    @JoinColumn(name = "user_id")
+//    private User user;
 
     @Builder
     public Product(String title, String content, int price, Category category) {
