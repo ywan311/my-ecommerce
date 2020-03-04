@@ -21,3 +21,4 @@ spring-boot + jpa
 - 단위 테스트 구현해보기
 - admin 페이지 구현하기
 - swagger를 사용하여 api 명세서 자동 생성(0)
+- 회원 구현 완료 후에 develop 에 merge!!!!!!(x)
