@@ -68,11 +68,15 @@ public class UserApiControllerTest {
         String username = "회원 테스트";
         String password = "testtest";
         String name = "회원 이름 테스트";
+        String email = "email@xxx.com";
+        String address = "address";
 
         UserRegisterReqDto dto = UserRegisterReqDto.builder()
                 .username(username)
                 .password(password)
                 .name(name)
+                .address(address)
+                .email(email)
                 .build();
 
         String url = "http://localhost:"+port+"/api/v1/signup";
@@ -87,6 +91,8 @@ public class UserApiControllerTest {
 
         assertThat(test.getUsername()).isEqualTo(username);
         assertThat(test.getName()).isEqualTo(name);
+        assertThat(test.getAddress()).isEqualTo(address);
+        assertThat(test.getEmail()).isEqualTo(email);
         assertThat(test.getRole().getKey()).isEqualTo(Role.USER.getKey());
         assertThat(passwordEncoder.matches(password,test.getPassword())).isTrue();
     }

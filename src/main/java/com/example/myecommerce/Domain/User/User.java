@@ -31,7 +31,7 @@ public class User extends BaseTimeEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false)
+    @Column(nullable = false,unique = true)
     private String username;
 
     @Column(nullable = false)
@@ -40,17 +40,23 @@ public class User extends BaseTimeEntity implements UserDetails {
     @Column(nullable = false)
     private String name;
 
+    @Column
+    private String email;
+
+    @Column
+    private String address;
+
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Role role;
-//
-//    @OneToMany(mappedBy = "user")
-//    @JsonManagedReference
-//    private Set<Comment> comments = new HashSet<>();
-//
-//    @OneToMany(mappedBy = "user")
-//    @JsonManagedReference
-//    private Set<Product> products = new HashSet<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Comment> comments = new HashSet<>();
+
+    @OneToMany(mappedBy = "user",cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Product> products = new HashSet<>();
 
 
     @Override
@@ -85,14 +91,26 @@ public class User extends BaseTimeEntity implements UserDetails {
     }
 
     @Builder
-    public User(String username, String password, String name,Role role) {
+    public User(String username, String password, String name,String email, String address,Role role) {
         this.username = username;
         this.password = password;
         this.name = name;
+        this.email = email;
+        this.address = address;
         this.role = role;
     }
 
     public String getRoleKey(){
         return this.role.getKey();
+    }
+
+    public void update(String name,String email, String address){
+        this.name = name;
+        this.email = email;
+        this.address = address;
+    }
+
+    public void updatePassword(String password){
+        this.password = password;
     }
 }

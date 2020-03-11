@@ -5,16 +5,21 @@ import com.example.myecommerce.Domain.Category.CategoryRepository;
 import com.example.myecommerce.Domain.Comment.CommentRepository;
 import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Domain.Product.ProductRepository;
+import com.example.myecommerce.Domain.User.User;
+import com.example.myecommerce.Domain.User.UserRepository;
+import com.example.myecommerce.Service.User.CustomUserDetailService;
 import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;
 import com.example.myecommerce.Web.Dto.Product.ProductListResDto;
 import com.example.myecommerce.Web.Dto.Product.ProductResDto;
 import com.example.myecommerce.Web.Dto.Product.ProductSaveReqDto;
 import com.example.myecommerce.Web.Dto.Product.ProductUpdateReqDto;
+import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.security.auth.login.LoginException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,15 +28,24 @@ import java.util.stream.Collectors;
 public class ProductService {
     private final ProductRepository productRepository;
     private final CategoryRepository categoryRepository;
+    private final UserRepository userRepository;
 
     @Transactional
-    public Long save(ProductSaveReqDto dto){
+    public Long save(ProductSaveReqDto dto,String username){
+        User user = userRepository.findByUsername(username);
         if(dto.getCategoryId()!=null){
             Category category = categoryRepository.findById(dto.getCategoryId()).orElseThrow(()-> new IllegalArgumentException("카테로리가 없습니다. id:"+dto.getCategoryId()));
-            return productRepository.save(dto.toEntity(category)).getId();
-        }else return productRepository.save(dto.toEntity()).getId();
+            return productRepository.save(dto.toEntity(category,user)).getId();
+        }else return productRepository.save(dto.toEntity(user)).getId();
     }
 
+    @Transactional
+    public List<ProductListResDto> findAllByUserId(String username){
+        return productRepository.findAllByUserUsername(username)
+                .stream()
+                .map(ProductListResDto::new)
+                .collect(Collectors.toList());
+    }
     @Transactional
     public List<ProductListResDto> findAll(){
         return productRepository.findAll(Sort.by("id").descending())

@@ -7,6 +7,8 @@ import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @Api(value = "댓글 controller")
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class CommentApiController {
     private final CommentService commentService;
+
 
     @ApiOperation(value = "댓글 조회")
     @GetMapping("/api/v1/comment/{id}")
@@ -24,7 +27,8 @@ public class CommentApiController {
     @ApiOperation(value = "댓글 생성")
     @PostMapping("/api/v1/comment/{pId}")
     public Long save(@PathVariable Long pId,@RequestBody CommentReqDto dto){
-        return commentService.save(pId,dto);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return commentService.save(pId,dto,authentication.getName());
     }
 
     @ApiOperation(value = "댓글 수정")

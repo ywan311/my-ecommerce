@@ -4,6 +4,9 @@ import com.example.myecommerce.Domain.Comment.Comment;
 import com.example.myecommerce.Domain.Comment.CommentRepository;
 import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Domain.Product.ProductRepository;
+import com.example.myecommerce.Domain.User.Role;
+import com.example.myecommerce.Domain.User.User;
+import com.example.myecommerce.Domain.User.UserRepository;
 import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
@@ -14,6 +17,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -40,7 +46,15 @@ public class CommentApiControllerTest {
     @Autowired
     private CommentRepository commentRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private Product test;
+
+
 
     @Autowired
     private WebApplicationContext context;
@@ -50,10 +64,11 @@ public class CommentApiControllerTest {
     @Before
     public void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
-    }
 
-    @Before
-    public void makeProduct() {
+        User user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
+        userRepository.save(user);
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getAuthorities()));
+
         String pTitle = "상품명 테스트";
         String pContent = "상품내용 테스트";
         int price = 1515;
@@ -62,8 +77,11 @@ public class CommentApiControllerTest {
                 .title(pTitle)
                 .content(pContent)
                 .price(price)
+                .user(user)
                 .build());
     }
+
+
 
     @Test
     public void 댓글등록() throws Exception {

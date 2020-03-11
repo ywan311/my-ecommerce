@@ -1,5 +1,6 @@
 package com.example.myecommerce.Web.ApiController;
 
+import com.example.myecommerce.Domain.User.User;
 import com.example.myecommerce.Service.Product.ProductService;
 import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;
 import com.example.myecommerce.Web.Dto.Product.ProductListResDto;
@@ -10,6 +11,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -23,7 +27,8 @@ public class ProductApiController {
     @ApiOperation(value = "상품 생성")
     @PostMapping("/api/v1/product")
     public Long save(@ApiParam(value ="상품 요청 DTO") @RequestBody ProductSaveReqDto dto) {
-        return productService.save(dto);
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return productService.save(dto,authentication.getName());
     }
 
     @ApiOperation(value = "상품 리스트")
@@ -31,6 +36,7 @@ public class ProductApiController {
     public List<ProductListResDto> findList() {
         return productService.findAll();
     }
+
 
     @ApiOperation(value = "상품 조회")
     @GetMapping("/api/v1/product/{id}")

@@ -39,20 +39,21 @@ public class Product extends BaseTimeEntity {
 
     @ManyToOne
     @JsonBackReference
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "FK_PRODUCT_CATEGORY"))
     private Category category;
-//
-//    @ManyToOne
-//    @JsonBackReference
-//    @JoinColumn(name = "user_id")
-//    private User user;
+
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "FK_PRODUCT_USER"))
+    private User user;
 
     @Builder
-    public Product(String title, String content, int price, Category category) {
+    public Product(String title, String content, int price, Category category, User user) {
         this.title = title;
         this.content = content;
         this.price = price;
         this.category = category;
+        this.user = user;
     }
 
     public void addComment(Comment comment){
