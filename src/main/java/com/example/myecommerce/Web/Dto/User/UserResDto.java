@@ -2,8 +2,10 @@ package com.example.myecommerce.Web.Dto.User;
 
 import com.example.myecommerce.Domain.User.User;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
+@NoArgsConstructor
 public class UserResDto {
     private String username;
     private String name;
@@ -16,4 +18,5 @@ public class UserResDto {
         this.email = entity.getEmail();
         this.address = entity.getAddress();
     }
+
 }

@@ -3,6 +3,7 @@ package com.example.myecommerce.Domain.Product;
 import com.example.myecommerce.Domain.BaseTimeEntity;
 import com.example.myecommerce.Domain.Category.Category;
 import com.example.myecommerce.Domain.Comment.Comment;
+import com.example.myecommerce.Domain.Order.Order;
 import com.example.myecommerce.Domain.User.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -46,6 +47,11 @@ public class Product extends BaseTimeEntity {
     @JsonBackReference
     @JoinColumn(name = "user_id", nullable = false, foreignKey = @ForeignKey(name = "FK_PRODUCT_USER"))
     private User user;
+
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference
+    private Set<Order> orders = new HashSet<>();
+
 
     @Builder
     public Product(String title, String content, int price, Category category, User user) {

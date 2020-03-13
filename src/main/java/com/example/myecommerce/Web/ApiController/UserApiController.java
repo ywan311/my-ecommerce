@@ -33,6 +33,8 @@ public class UserApiController {
     public String register(@RequestBody UserRegisterReqDto dto){
         return userService.register(dto)?"OK":"failed";
     }
+
+
     @ApiOperation(value = "내정보")
     @GetMapping(value = "api/v1/my")
     public UserResDto myInfo(){

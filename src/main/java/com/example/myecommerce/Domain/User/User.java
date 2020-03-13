@@ -2,6 +2,7 @@ package com.example.myecommerce.Domain.User;
 
 import com.example.myecommerce.Domain.BaseTimeEntity;
 import com.example.myecommerce.Domain.Comment.Comment;
+import com.example.myecommerce.Domain.Order.Order;
 import com.example.myecommerce.Domain.Product.Product;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -58,6 +59,9 @@ public class User extends BaseTimeEntity implements UserDetails {
     @JsonManagedReference
     private Set<Product> products = new HashSet<>();
 
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<Order> orders = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

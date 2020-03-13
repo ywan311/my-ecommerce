@@ -6,6 +6,7 @@ import com.example.myecommerce.Domain.User.User;
 import com.example.myecommerce.Domain.User.UserRepository;
 import com.example.myecommerce.Web.Dto.User.LoginReqDto;
 import com.example.myecommerce.Web.Dto.User.UserRegisterReqDto;
+import com.example.myecommerce.Web.Dto.User.UserResDto;
 import com.example.myecommerce.config.Security.JwtTokenProvider;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.After;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
@@ -128,5 +131,36 @@ public class UserApiControllerTest {
         User test = userRepository.findByUsername(username);
         assertThat(provider.getUserPk(token)).isEqualTo(username);
         assertThat(provider.getAuthentication(token).getPrincipal()).isEqualTo(user);
+    }
+
+    @Test
+    public void 내정보()throws Exception{
+        String username = "로그인 테스트";
+        String password = "test";
+        String name = "로그인 이름";
+
+        User user = userRepository.save(
+                User.builder()
+                        .username(username)
+                        .password(passwordEncoder.encode(password))
+                        .name(name)
+                        .role(Role.USER)
+                        .build());
+
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getAuthorities()));
+
+        String url = "http://localhost:"+port+"/api/v1/my";
+
+        MvcResult result =mvc.perform(get(url)
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(new ObjectMapper().writeValueAsString(null)))
+                .andExpect(status().isOk())
+                .andReturn();
+
+        String s = result.getResponse().getContentAsString();
+        UserResDto test = new ObjectMapper().readValue(s,UserResDto.class);
+
+        assertThat(test.getUsername()).isEqualTo(username);
+        assertThat(test.getName()).isEqualTo(name);
     }
 }
