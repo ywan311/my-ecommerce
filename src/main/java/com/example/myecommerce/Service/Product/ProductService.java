@@ -15,6 +15,7 @@ import com.example.myecommerce.Web.Dto.Product.ProductSaveReqDto;
 import com.example.myecommerce.Web.Dto.Product.ProductUpdateReqDto;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

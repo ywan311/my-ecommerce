@@ -1,8 +1,6 @@
 package com.example.myecommerce.Web.ApiController;
 
-import com.example.myecommerce.Domain.User.User;
 import com.example.myecommerce.Service.Product.ProductService;
-import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;
 import com.example.myecommerce.Web.Dto.Product.ProductListResDto;
 import com.example.myecommerce.Web.Dto.Product.ProductResDto;
 import com.example.myecommerce.Web.Dto.Product.ProductSaveReqDto;
@@ -12,7 +10,6 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
