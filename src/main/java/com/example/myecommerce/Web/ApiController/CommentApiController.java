@@ -2,8 +2,8 @@ package com.example.myecommerce.Web.ApiController;
 
 
 import com.example.myecommerce.Service.Comment.CommentService;
-import com.example.myecommerce.Web.Dto.Comment.CommentResDto;
 import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;
+import com.example.myecommerce.Web.Dto.Comment.CommentResDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

@@ -3,7 +3,6 @@ package com.example.myecommerce.Web.ApiController;
 import com.example.myecommerce.Domain.User.User;
 import com.example.myecommerce.Service.User.CustomUserDetailService;
 import com.example.myecommerce.Service.User.UserService;
-import com.example.myecommerce.Web.Dto.Product.ProductResDto;
 import com.example.myecommerce.Web.Dto.User.*;
 import com.example.myecommerce.config.Security.JwtTokenProvider;
 import io.swagger.annotations.Api;

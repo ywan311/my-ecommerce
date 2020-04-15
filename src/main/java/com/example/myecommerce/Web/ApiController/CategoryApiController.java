@@ -5,6 +5,8 @@ import com.example.myecommerce.Web.Dto.Category.CategoryReqDto;
 import com.example.myecommerce.Web.Dto.Category.CategoryResDto;
 import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 public class CategoryApiController {
+    private static final Logger logger = LoggerFactory.getLogger(CategoryApiController.class);
     private final CategoryService categoryService;
 
     @GetMapping("/api/v1/category")
