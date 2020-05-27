@@ -1,6 +1,8 @@
 package com.example.myecommerce.Domain.ImageFile;
 
 import com.example.myecommerce.Domain.BaseTimeEntity;
+import com.example.myecommerce.Domain.Product.Product;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,10 +26,16 @@ public class ImageFile extends BaseTimeEntity {
     @Column
     private String mimeType;
 
+    @ManyToOne
+    @JsonBackReference
+    @JoinColumn(name = "product_id", nullable = false,foreignKey = @ForeignKey(name = "FK_IMAGE_FILE_PRODUCT"))
+    private Product product;
+
     @Builder
-    public ImageFile(String fileName, long size, String mimeType) {
+    public ImageFile(String fileName, long size, String mimeType,Product product) {
         this.fileName = fileName;
         this.size = size;
         this.mimeType = mimeType;
+        this.product = product;
     }
 }
