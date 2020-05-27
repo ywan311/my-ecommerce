@@ -3,6 +3,7 @@ package com.example.myecommerce.Domain.Product;
 import com.example.myecommerce.Domain.BaseTimeEntity;
 import com.example.myecommerce.Domain.Category.Category;
 import com.example.myecommerce.Domain.Comment.Comment;
+import com.example.myecommerce.Domain.ImageFile.ImageFile;
 import com.example.myecommerce.Domain.Order.Order;
 import com.example.myecommerce.Domain.User.User;
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -13,7 +14,9 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Getter
@@ -51,6 +54,10 @@ public class Product extends BaseTimeEntity {
     @OneToMany(mappedBy = "product")
     @JsonManagedReference
     private Set<Order> orders = new HashSet<>();
+
+    @OneToMany(mappedBy = "product")
+    @JsonManagedReference
+    private List<ImageFile> files = new ArrayList<>();
 
 
     @Builder
