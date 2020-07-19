@@ -9,6 +9,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 public class MyEcommerceApplication {
     public static void main(String[] args) {
         SpringApplication.run(MyEcommerceApplication.class, args);
-
     }
 }
