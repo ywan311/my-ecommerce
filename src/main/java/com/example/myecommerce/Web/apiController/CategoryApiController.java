@@ -1,4 +1,4 @@
-package com.example.myecommerce.Web;
+package com.example.myecommerce.Web.apiController;
 
 import com.example.myecommerce.Service.Category.CategoryService;
 import com.example.myecommerce.Web.Dto.Category.CategoryReqDto;
