@@ -2,12 +2,16 @@ package com.example.myecommerce.Web.apiController;
 
 
 import com.example.myecommerce.Service.Comment.CommentService;
+import com.example.myecommerce.Web.Dto.Comment.CommentByProductListResDto;
 import com.example.myecommerce.Web.Dto.Comment.CommentResDto;
 import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Api(value = "댓글 controller")
 @RestController
@@ -38,5 +42,11 @@ public class CommentApiController {
     public Long delete(@PathVariable Long id){
         commentService.delete(id);
         return id;
+    }
+
+    @ApiOperation(value = "상품 댓글 목록")
+    @GetMapping("/api/v1/comment/{pid}/product")
+    public List<CommentByProductListResDto> findByProductId(@PathVariable("pid")Long id){
+        return commentService.findByProductId(id);
     }
 }
