@@ -3,26 +3,23 @@ package com.example.myecommerce.Web.Dto.Product;
 import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Web.Dto.Category.CategoryResDto;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor
-public class ProductListResDto {
+public class ProductListByCategoryResDto {
     private Long id;
     private String title;
-    private CategoryResDto catgory;
-    private String content;
     private int price;
     private LocalDateTime modifiedDate;
+    private LocalDateTime createdDate;
 
-    public ProductListResDto(Product entity) {
+
+    public ProductListByCategoryResDto(Product entity) {
         this.id = entity.getId();
         this.title = entity.getTitle();
-        this.content = entity.getContent();
-        this.catgory = new CategoryResDto(entity.getCategory());
         this.price = entity.getPrice();
+        this.createdDate = entity.getCreatedDate();
         this.modifiedDate = entity.getModifiedDate();
     }
 }
