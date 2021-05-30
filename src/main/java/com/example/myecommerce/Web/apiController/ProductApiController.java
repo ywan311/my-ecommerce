@@ -2,10 +2,7 @@ package com.example.myecommerce.Web.apiController;
 
 import com.example.myecommerce.Service.Product.ProductService;
 import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;
-import com.example.myecommerce.Web.Dto.Product.ProductListResDto;
-import com.example.myecommerce.Web.Dto.Product.ProductResDto;
-import com.example.myecommerce.Web.Dto.Product.ProductSaveReqDto;
-import com.example.myecommerce.Web.Dto.Product.ProductUpdateReqDto;
+import com.example.myecommerce.Web.Dto.Product.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -49,5 +46,10 @@ public class ProductApiController {
     public Long delete(@PathVariable Long id) {
         productService.delete(id);
         return id;
+    }
+
+    @GetMapping("/api/v1/product/{c_id}/category")
+    public List<ProductListByCategoryResDto> findProductByCategory(@PathVariable("c_id")Long id){
+        return productService.findProductByCategoryId(id);
     }
 }

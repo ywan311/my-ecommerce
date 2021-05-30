@@ -12,6 +12,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
+@NoArgsConstructor
 public class ProductResDto {
     private Long id;
     private String title;
