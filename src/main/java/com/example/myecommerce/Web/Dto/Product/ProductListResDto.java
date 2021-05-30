@@ -1,5 +1,6 @@
 package com.example.myecommerce.Web.Dto.Product;
 
+import com.example.myecommerce.Domain.Category.Category;
 import com.example.myecommerce.Domain.Comment.Comment;
 import com.example.myecommerce.Domain.Product.Product;
 import lombok.Getter;
@@ -14,6 +15,7 @@ public class ProductListResDto {
     private String title;
     private String content;
     private int price;
+    private Category category;
     private LocalDateTime modifiedDate;
 
     public ProductListResDto(Product entity) {
@@ -21,6 +23,7 @@ public class ProductListResDto {
         this.title = entity.getTitle();
         this.content = entity.getContent();
         this.price = entity.getPrice();
+        this.category = entity.getCategory();
         this.modifiedDate = entity.getModifiedDate();
     }
 }

@@ -22,7 +22,7 @@ public class ProductApiController {
 
     @ApiOperation(value = "상품 생성")
     @PostMapping("/api/v1/product")
-    public Long save(@ApiParam(value ="상품 요청 DTO") @RequestBody ProductSaveReqDto dto) {
+    public Long save(@ApiParam(value = "상품 요청 DTO") @RequestBody ProductSaveReqDto dto) {
         return productService.save(dto);
     }
 
@@ -40,13 +40,13 @@ public class ProductApiController {
 
     @ApiOperation(value = "상품 수정")
     @PutMapping("/api/v1/product/{id}")
-    public Long update(@PathVariable Long id, @ApiParam(value = "수정내용 DTO")@RequestBody ProductUpdateReqDto dto) {
+    public Long update(@PathVariable Long id, @ApiParam(value = "수정내용 DTO") @RequestBody ProductUpdateReqDto dto) {
         return productService.update(id, dto);
     }
 
-    @ApiOperation(value ="상품삭제")
+    @ApiOperation(value = "상품삭제")
     @DeleteMapping("/api/v1/product/{id}")
-    public Long delete(@PathVariable Long id){
+    public Long delete(@PathVariable Long id) {
         productService.delete(id);
         return id;
     }

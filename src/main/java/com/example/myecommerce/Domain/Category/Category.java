@@ -31,11 +31,11 @@ public class Category extends BaseTimeEntity {
         this.title = title;
     }
 
-    public void addProduct(Product product){
+    public void addProduct(Product product) {
         this.products.add(product);
     }
 
-    public void update(String title){
+    public void update(String title) {
         this.title = title;
     }
 }

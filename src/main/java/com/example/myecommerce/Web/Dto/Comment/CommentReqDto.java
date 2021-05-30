@@ -18,7 +18,7 @@ public class CommentReqDto {
         this.content = content;
     }
 
-    public Comment toEntity(Product product){
+    public Comment toEntity(Product product) {
         return Comment.builder()
                 .product(product)
                 .title(title)

@@ -24,7 +24,7 @@ public class ProductSaveReqDto {
         this.categoryId = categoryId;
     }
 
-    public Product toEntity(Category category){
+    public Product toEntity(Category category) {
         return Product.builder()
                 .title(title)
                 .content(content)
@@ -32,7 +32,8 @@ public class ProductSaveReqDto {
                 .category(category)
                 .build();
     }
-    public Product toEntity(){
+
+    public Product toEntity() {
         return Product.builder()
                 .title(title)
                 .content(content)

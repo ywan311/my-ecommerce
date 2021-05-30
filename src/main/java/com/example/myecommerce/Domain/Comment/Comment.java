@@ -31,13 +31,13 @@ public class Comment extends BaseTimeEntity {
     private String content;
 
     @Builder
-    public Comment(Product product,String title, String content) {
+    public Comment(Product product, String title, String content) {
         this.product = product;
         this.title = title;
         this.content = content;
     }
 
-    public void update(String title, String content){
+    public void update(String title, String content) {
         this.title = title;
         this.content = content;
     }

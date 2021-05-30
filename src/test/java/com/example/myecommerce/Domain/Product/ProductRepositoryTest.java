@@ -20,15 +20,15 @@ public class ProductRepositoryTest {
     ProductRepository productRepository;
 
     @After
-    public void cleaup(){
+    public void cleaup() {
         productRepository.deleteAll();
     }
 
     @Test
-    public void 상품저장_불러오기(){
+    public void 상품저장_불러오기() {
         //given
-        String title ="상품명 테스트";
-        String content ="상품 내용 테스트";
+        String title = "상품명 테스트";
+        String content = "상품 내용 테스트";
         int price = 10000;
 
         productRepository.save(
@@ -49,13 +49,13 @@ public class ProductRepositoryTest {
     }
 
     @Test
-    public void BaseTimeEntity시간테스트(){
+    public void BaseTimeEntity시간테스트() {
         //given
 
-        String title ="상품명 테스트";
-        String content ="상품 내용 테스트";
+        String title = "상품명 테스트";
+        String content = "상품 내용 테스트";
         int price = 10000;
-        LocalDateTime now = LocalDateTime.of(2020,2,21,5,34,00);
+        LocalDateTime now = LocalDateTime.of(2020, 2, 21, 5, 34, 00);
 
         productRepository.save(
                 Product.builder()

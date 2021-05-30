@@ -18,20 +18,22 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @After
-    public void cleanUp(){userRepository.deleteAll();}
+    public void cleanUp() {
+        userRepository.deleteAll();
+    }
 
     @Test
-    public void user_생성및불러오기(){
+    public void user_생성및불러오기() {
         String username = "유저 아이디 테스트";
         String password = "유저 비밀번호 테스트";
         String name = "유저이름 테스트";
 
         userRepository.save(User.builder()
-            .username(username)
-            .password(password)
-            .name(name)
-            .role(Role.USER)
-            .build());
+                .username(username)
+                .password(password)
+                .name(name)
+                .role(Role.USER)
+                .build());
 
         List<User> list = userRepository.findAll();
 
