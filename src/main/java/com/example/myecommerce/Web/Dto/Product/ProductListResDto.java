@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class ProductListResDto {
     private Long id;
     private String title;
-    private CategoryResDto catgory;
+    private CategoryResDto category;
     private String content;
     private int price;
     private LocalDateTime modifiedDate;
@@ -21,7 +21,7 @@ public class ProductListResDto {
         this.id = entity.getId();
         this.title = entity.getTitle();
         this.content = entity.getContent();
-        this.catgory = new CategoryResDto(entity.getCategory());
+        this.category = new CategoryResDto(entity.getCategory());
         this.price = entity.getPrice();
         this.modifiedDate = entity.getModifiedDate();
     }
