@@ -2,6 +2,7 @@ package com.example.myecommerce.Web.Dto.Product;
 
 import com.example.myecommerce.Domain.Category.Category;
 import com.example.myecommerce.Domain.Product.Product;
+import com.example.myecommerce.Domain.User.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,20 +25,21 @@ public class ProductSaveReqDto {
         this.categoryId = categoryId;
     }
 
-    public Product toEntity(Category category) {
+    public Product toEntity(Category category, User user){
         return Product.builder()
                 .title(title)
                 .content(content)
                 .price(price)
                 .category(category)
+                .user(user)
                 .build();
     }
-
-    public Product toEntity() {
+    public Product toEntity(User user){
         return Product.builder()
                 .title(title)
                 .content(content)
                 .price(price)
+                .user(user)
                 .build();
     }
 }

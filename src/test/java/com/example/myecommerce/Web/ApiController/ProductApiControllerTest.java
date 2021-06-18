@@ -1,9 +1,12 @@
-package com.example.myecommerce.Web;
+package com.example.myecommerce.Web.ApiController;
 
 import com.example.myecommerce.Domain.Category.Category;
 import com.example.myecommerce.Domain.Category.CategoryRepository;
 import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Domain.Product.ProductRepository;
+import com.example.myecommerce.Domain.User.Role;
+import com.example.myecommerce.Domain.User.User;
+import com.example.myecommerce.Domain.User.UserRepository;
 import com.example.myecommerce.Web.Dto.Product.ProductSaveReqDto;
 import com.example.myecommerce.Web.Dto.Product.ProductUpdateReqDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -15,6 +18,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
 import org.springframework.http.MediaType;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -31,7 +37,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
-public class CategoryApiControllerTest {
+public class ProductApiControllerTest {
     @LocalServerPort
     private int port;
 
@@ -41,6 +47,11 @@ public class CategoryApiControllerTest {
     @Autowired
     private CategoryRepository categoryRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Autowired
     private WebApplicationContext context;
@@ -48,10 +59,12 @@ public class CategoryApiControllerTest {
     private MockMvc mvc;
 
     private Category test;
-
     @Before
-    public void setUp() {
+    public void setUp() throws Exception{
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        User user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
+        userRepository.save(user);
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getAuthorities()));
     }
 
     @Before
@@ -62,10 +75,12 @@ public class CategoryApiControllerTest {
     @After
     public void tearDown() throws Exception {
         productRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
     public void Product_등록테스트() throws Exception {
+
         //given
         String title = "상품명 테스트";
         String content = "상품내용 테스트";
@@ -119,7 +134,7 @@ public class CategoryApiControllerTest {
         String url = "http://localhost:" + port + "/api/v1/product/" + updateId;
 
         //when
-        mvc.perform(put(url)
+         mvc.perform(put(url)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(new ObjectMapper().writeValueAsString(dto)))
                 .andExpect(status().isOk());

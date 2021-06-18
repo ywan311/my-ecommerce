@@ -1,4 +1,4 @@
-package com.example.myecommerce.Web;
+package com.example.myecommerce.Web.ApiController;
 
 import com.example.myecommerce.Domain.Category.Category;
 import com.example.myecommerce.Domain.Category.CategoryRepository;
@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
-public class ProductApiControllerTest {
+public class CategoryApiControllerTest {
     @LocalServerPort
     private int port;
 

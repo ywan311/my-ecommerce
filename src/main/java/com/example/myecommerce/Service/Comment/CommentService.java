@@ -4,9 +4,11 @@ import com.example.myecommerce.Domain.Comment.Comment;
 import com.example.myecommerce.Domain.Comment.CommentRepository;
 import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Domain.Product.ProductRepository;
+import com.example.myecommerce.Domain.User.User;
+import com.example.myecommerce.Domain.User.UserRepository;
 import com.example.myecommerce.Web.Dto.Comment.CommentByProductListResDto;
-import com.example.myecommerce.Web.Dto.Comment.CommentResDto;
 import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;
+import com.example.myecommerce.Web.Dto.Comment.CommentResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,6 +21,7 @@ import java.util.stream.Collectors;
 public class CommentService {
     private final CommentRepository commentRepository;
     private final ProductRepository productRepository;
+    private final UserRepository userRepository;
 
     public CommentResDto findById(Long id){
         Comment entity = commentRepository.findById(id).orElseThrow(()->new IllegalArgumentException("댓글이 없습니다. id:"+id));
@@ -26,9 +29,10 @@ public class CommentService {
     }
 
     @Transactional
-    public Long save(Long prodId, CommentReqDto dto){
+    public Long save(Long prodId, CommentReqDto dto,String username){
+        User user = userRepository.findByUsername(username);
         Product product = productRepository.findById(prodId).orElseThrow(()-> new IllegalArgumentException("상품이 없습니다. id:"+prodId));
-        Comment newComment = commentRepository.save(dto.toEntity(product));
+        Comment newComment = commentRepository.save(dto.toEntity(product,user));
         product.addComment(newComment);
         return newComment.getId();
     }

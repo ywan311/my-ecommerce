@@ -2,6 +2,7 @@ package com.example.myecommerce.Web.Dto.Comment;
 
 import com.example.myecommerce.Domain.Comment.Comment;
 import com.example.myecommerce.Domain.Product.Product;
+import com.example.myecommerce.Domain.User.User;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,11 +19,12 @@ public class CommentReqDto {
         this.content = content;
     }
 
-    public Comment toEntity(Product product) {
+    public Comment toEntity(Product product, User user){
         return Comment.builder()
                 .product(product)
                 .title(title)
                 .content(content)
+                .user(user)
                 .build();
     }
 }

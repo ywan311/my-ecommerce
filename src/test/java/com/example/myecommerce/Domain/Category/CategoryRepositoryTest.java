@@ -1,8 +1,6 @@
 package com.example.myecommerce.Domain.Category;
 
 
-import com.example.myecommerce.Domain.Product.Product;
-import com.example.myecommerce.Domain.Product.ProductRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Test;
