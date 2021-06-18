@@ -1,10 +1,7 @@
 package com.example.myecommerce.Web.ApiController;
 
 import com.example.myecommerce.Service.Product.ProductService;
-import com.example.myecommerce.Web.Dto.Product.ProductListResDto;
-import com.example.myecommerce.Web.Dto.Product.ProductResDto;
-import com.example.myecommerce.Web.Dto.Product.ProductSaveReqDto;
-import com.example.myecommerce.Web.Dto.Product.ProductUpdateReqDto;
+import com.example.myecommerce.Web.Dto.Product.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -43,14 +40,19 @@ public class ProductApiController {
 
     @ApiOperation(value = "상품 수정")
     @PutMapping("/api/v1/product/{id}")
-    public Long update(@PathVariable Long id, @ApiParam(value = "수정내용 DTO")@RequestBody ProductUpdateReqDto dto) {
+    public Long update(@PathVariable Long id, @ApiParam(value = "수정내용 DTO") @RequestBody ProductUpdateReqDto dto) {
         return productService.update(id, dto);
     }
 
-    @ApiOperation(value ="상품삭제")
+    @ApiOperation(value = "상품삭제")
     @DeleteMapping("/api/v1/product/{id}")
-    public Long delete(@PathVariable Long id){
+    public Long delete(@PathVariable Long id) {
         productService.delete(id);
         return id;
+    }
+
+    @GetMapping("/api/v1/product/{c_id}/category")
+    public List<ProductListByCategoryResDto> findProductByCategory(@PathVariable("c_id")Long id){
+        return productService.findProductByCategoryId(id);
     }
 }

@@ -69,16 +69,17 @@ public class Product extends BaseTimeEntity {
         this.user = user;
     }
 
-    public void addComment(Comment comment){
+    public void addComment(Comment comment) {
         this.comments.add(comment);
     }
 
-    public void update(String title, String content, int price){
+    public void update(String title, String content, int price) {
         this.title = title;
         this.content = content;
         this.price = price;
     }
-    public void changeCategory(Category category){
+
+    public void changeCategory(Category category) {
         this.category = category;
     }
 }

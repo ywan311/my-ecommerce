@@ -13,7 +13,7 @@ public class ProductUpdateReqDto {
     private Long categoryId;
 
     @Builder
-    public ProductUpdateReqDto(String title, String content, int price , Long categoryId) {
+    public ProductUpdateReqDto(String title, String content, int price, Long categoryId) {
         this.title = title;
         this.content = content;
         this.price = price;

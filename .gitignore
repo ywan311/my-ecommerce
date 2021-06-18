@@ -27,3 +27,7 @@ out/
 
 ### VS Code ###
 .vscode/
+
+/src/main/resources-dev/
+/src/main/resources-prod/
+logs/

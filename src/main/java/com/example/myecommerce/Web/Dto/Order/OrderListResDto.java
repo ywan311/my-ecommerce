@@ -1,7 +1,6 @@
 package com.example.myecommerce.Web.Dto.Order;
 
 import com.example.myecommerce.Domain.Order.Order;
-import com.example.myecommerce.Domain.Product.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -6,11 +6,15 @@ import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Domain.Product.ProductRepository;
 import com.example.myecommerce.Domain.User.User;
 import com.example.myecommerce.Domain.User.UserRepository;
-import com.example.myecommerce.Web.Dto.Comment.CommentResDto;
+import com.example.myecommerce.Web.Dto.Comment.CommentByProductListResDto;
 import com.example.myecommerce.Web.Dto.Comment.CommentReqDto;
+import com.example.myecommerce.Web.Dto.Comment.CommentResDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -39,7 +43,12 @@ public class CommentService {
         return id;
     }
     public void delete(Long id){
-        Comment entity = commentRepository.findById(id).orElseThrow(()->new IllegalArgumentException("댓글이 없습니다. id:"+id));
+        Comment entity = commentRepository .findById(id).orElseThrow(()->new IllegalArgumentException("댓글이 없습니다. id:"+id));
         commentRepository.delete(entity);
+    }
+
+    public List<CommentByProductListResDto> findByProductId(Long id){
+        List<Comment> result = commentRepository.findCommentsByProductId(id);
+        return result.stream().map(o ->CommentByProductListResDto.builder().id(o.getId()).title(o.getTitle()).modifiedDate(o.getModifiedDate()).build()).collect(Collectors.toList());
     }
 }

@@ -1,8 +1,6 @@
 package com.example.myecommerce.Domain.Category;
 
 
-import com.example.myecommerce.Domain.Product.Product;
-import com.example.myecommerce.Domain.Product.ProductRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
 import org.junit.Test;
@@ -23,14 +21,14 @@ public class CategoryRepositoryTest {
     CategoryRepository categoryRepository;
 
     @After
-    public void cleaup(){
+    public void cleaup() {
         categoryRepository.deleteAll();
     }
 
     @Test
-    public void 카테고리저장_불러오기(){
+    public void 카테고리저장_불러오기() {
         //given
-        String title ="카테고리 테스트";
+        String title = "카테고리 테스트";
 
         categoryRepository.save(
                 Category.builder()
@@ -46,11 +44,11 @@ public class CategoryRepositoryTest {
     }
 
     @Test
-    public void BaseTimeEntity시간테스트(){
+    public void BaseTimeEntity시간테스트() {
         //given
 
-        String title ="카테고리 테스트";
-        LocalDateTime now = LocalDateTime.of(2020,2,21,5,34,00);
+        String title = "카테고리 테스트";
+        LocalDateTime now = LocalDateTime.of(2020, 2, 21, 5, 34, 00);
 
         categoryRepository.save(
                 Category.builder()

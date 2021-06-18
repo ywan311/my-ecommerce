@@ -1,9 +1,7 @@
 package com.example.myecommerce.Web.Dto.Product;
 
-import com.example.myecommerce.Domain.Comment.Comment;
 import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Web.Dto.Comment.CommentResDto;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +10,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @Getter
+@NoArgsConstructor
 public class ProductResDto {
     private Long id;
     private String title;
