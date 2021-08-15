@@ -33,7 +33,7 @@ public class UserService {
                 .email(dto.getEmail())
                 .role(Role.USER)
                 .build()).getId();
-        return id!=null?true:false;
+        return id != null;
     }
     @Transactional
     public Long update(String username, UserUpdateReqDto dto){

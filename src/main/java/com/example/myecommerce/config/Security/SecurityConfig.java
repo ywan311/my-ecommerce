@@ -30,7 +30,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/h2-console/**","/v2/api-docs","/swagger-resources","/swagger-ui.html","/webjars/**","/swagger/**");
+        web.ignoring().antMatchers("/h2-console/**","/v2/api-docs","/swagger-resources/**","/swagger-ui.html","/webjars/**","/swagger/**");
     }
 
     @Override
@@ -38,11 +38,13 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         http.
                 httpBasic().disable()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                .and()
                     .authorizeRequests()
-                        .anyRequest().permitAll()
+                        .antMatchers("/api/v1/login","/swagger/**","/swagger-resources/**","/error").permitAll()
+                        .anyRequest().authenticated()
                 .and()
-                    .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+                    .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .formLogin().disable();
     }
 }
