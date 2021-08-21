@@ -38,8 +38,8 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         http.
                 httpBasic().disable()
                 .csrf().disable()
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .and()
                     .authorizeRequests()
                         .antMatchers("/api/v1/login","/swagger/**","/swagger-resources/**","/error").permitAll()
                         .anyRequest().authenticated()
