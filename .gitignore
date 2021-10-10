@@ -31,3 +31,4 @@ out/
 /src/main/resources-dev/
 /src/main/resources-prod/
 logs/
+file/
