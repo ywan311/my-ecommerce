@@ -2,6 +2,9 @@ package com.example.myecommerce.Service.ImageFile;
 
 import com.example.myecommerce.Domain.ImageFile.ImageFile;
 import com.example.myecommerce.Domain.ImageFile.ImageFileRepository;
+import com.example.myecommerce.Domain.Product.Product;
+import com.example.myecommerce.Domain.Product.ProductRepository;
+import com.example.myecommerce.Web.Dto.File.ProductFileUploadReq;
 import com.example.myecommerce.config.FileUploadProperties;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
@@ -21,10 +24,15 @@ import java.util.List;
 public class ImageFileService{
     @Autowired
     private ImageFileRepository imageFileRepository;
+
+    @Autowired
+    private ProductRepository productRepository;
+
     private final Path fileLocation;
+
     @Autowired
     public ImageFileService(FileUploadProperties prop) throws Exception{
-        System.out.println(prop);
+        System.out.println("file upload!! : " + prop.getUploadDir());
         this.fileLocation = Paths.get(prop.getUploadDir())
                 .toAbsolutePath().normalize();
 
@@ -55,7 +63,35 @@ public class ImageFileService{
 //         return
 //
 //    }
+public Long saveProductFile(ProductFileUploadReq dto) throws FileUploadException {
+    System.out.println(dto);
+    String fileName = StringUtils.getFilename(dto.getFile().getOriginalFilename());
+    try {
+        if(fileName.contains(".."))throw new FileUploadException();
+
+        Path targetLocation  = this.fileLocation.resolve(fileName);
+        Files.copy(dto.getFile().getInputStream(),targetLocation, StandardCopyOption.REPLACE_EXISTING);
+        Product product = productRepository.getOne(dto.getId());
+        ImageFile imageFile = ImageFile.builder().product(product).fileName(fileName).size(dto.getFile().getSize()).mimeType(dto.getFile().getContentType()).build();
+        return imageFileRepository.save(imageFile).getId();
+    }catch (Exception err){
+        throw new FileUploadException(err);
+    }
+}
 
 
+    public Long saveProductFile(Long id, MultipartFile file) throws FileUploadException {
+        String fileName = StringUtils.getFilename(file.getOriginalFilename());
+        try {
+            if(fileName.contains(".."))throw new FileUploadException();
 
+            Path targetLocation  = this.fileLocation.resolve(fileName);
+            Files.copy(file.getInputStream(),targetLocation, StandardCopyOption.REPLACE_EXISTING);
+            Product product = productRepository.getOne(id);
+            ImageFile imageFile = ImageFile.builder().product(product).fileName(fileName).size(file.getSize()).mimeType(file.getContentType()).build();
+            return imageFileRepository.save(imageFile).getId();
+        }catch (Exception err){
+            throw new FileUploadException(err);
+        }
+    }
 }
