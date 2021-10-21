@@ -1,4 +1,4 @@
-package com.example.myecommerce.Web.apiController;
+package com.example.myecommerce.Web.ApiController;
 
 public class HelloController {
 }

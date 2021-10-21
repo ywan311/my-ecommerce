@@ -1,5 +1,6 @@
 # **my-ecommerce**
-쇼핑몰 만들어보기
+상품 판매자 사이트 및 ecommerce api 
+
 spring-boot + jpa
 - version 1.0
 1. 프로젝트 생성 및 데이터베이스 설계(진행중)

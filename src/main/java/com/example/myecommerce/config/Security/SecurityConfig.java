@@ -11,9 +11,11 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.session.data.redis.config.annotation.web.http.EnableRedisHttpSession;
 
 @Configuration
 @RequiredArgsConstructor
+@EnableRedisHttpSession
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider tokenProvider;
 
@@ -30,7 +32,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/h2-console/**","/v2/api-docs","/swagger-resources","/swagger-ui.html","/webjars/**","/swagger/**");
+        web.ignoring().antMatchers("/h2-console/**","/v2/api-docs","/swagger-resources/**","/swagger-ui.html","/webjars/**","/swagger/**");
     }
 
     @Override
@@ -38,11 +40,13 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
         http.
                 httpBasic().disable()
                 .csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
                 .and()
                     .authorizeRequests()
-                        .anyRequest().permitAll()
+                        .antMatchers("/api/v1/login","/swagger/**","/swagger-resources/**","/error").permitAll()
+                        .anyRequest().authenticated()
                 .and()
-                    .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class);
+                    .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                .formLogin().disable();
     }
 }

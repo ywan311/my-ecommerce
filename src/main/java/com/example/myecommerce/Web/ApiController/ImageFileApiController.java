@@ -2,12 +2,10 @@ package com.example.myecommerce.Web.ApiController;
 
 import com.example.myecommerce.Domain.ImageFile.ImageFile;
 import com.example.myecommerce.Service.ImageFile.ImageFileService;
+import com.example.myecommerce.Web.Dto.File.ProductFileUploadReq;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.Serializable;
@@ -41,5 +39,10 @@ public class ImageFileApiController {
                         return e;
                     }
                 }).collect(Collectors.toList());
+    }
+
+    @PostMapping("/api/v1/file/{product_id}/product")
+    public Long productFile(@RequestParam("file") MultipartFile file, @PathVariable("product_id") Long id) throws Exception {
+        return imageFileService.saveProductFile(id,file);
     }
 }

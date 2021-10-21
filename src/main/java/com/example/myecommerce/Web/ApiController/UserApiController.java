@@ -21,14 +21,18 @@ public class UserApiController {
     private final UserService userService;
 
     @ApiOperation(value="로그인")
-    @GetMapping(value = "/api/v1/login")
+    @PostMapping(value = "/api/v1/login")
     public String login(@RequestBody LoginReqDto dto){
         User user = (User)userDetailService.loadUserByUsername(dto.getUsername());
-        return userService.checkLogin(dto.getUsername(),dto.getPassword())?provider.createToken(user.getUsername(),user.getRoleKey()):"failed";
+        String result = userService.checkLogin(dto.getUsername(),dto.getPassword())?provider.createToken(user.getUsername(),user.getRoleKey()):null;
+        if(result==null)return "failed";
+        Authentication auth = provider.getAuthentication(result);
+        SecurityContextHolder.getContext().setAuthentication(auth);
+        return result;
     }
 
     @ApiOperation(value = "회원가입")
-    @GetMapping(value = "api/v1/signup")
+    @PostMapping(value = "api/v1/signup")
     public String register(@RequestBody UserRegisterReqDto dto){
         return userService.register(dto)?"OK":"failed";
     }
