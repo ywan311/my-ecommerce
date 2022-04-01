@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.util.List;
 
+@RequestMapping("/admin")
 @Controller
 @RequiredArgsConstructor
 public class AdminController {
