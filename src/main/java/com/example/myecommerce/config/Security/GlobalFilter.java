@@ -1,5 +1,6 @@
 package com.example.myecommerce.config.Security;
 
+import com.example.myecommerce.common.ReadableRequestWrapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -13,17 +14,22 @@ import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 @RequiredArgsConstructor
-public class JwtAuthenticationFilter extends GenericFilterBean {
+public class GlobalFilter extends GenericFilterBean {
 
     private final JwtTokenProvider tokenProvider;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+
+        HttpServletRequest servletRequest = (HttpServletRequest)request;
+        ReadableRequestWrapper wrapper = new ReadableRequestWrapper(servletRequest);
+
         String token =tokenProvider.resolveToken((HttpServletRequest)request);
         if(token != null && tokenProvider.validateToken(token)){
             Authentication auth = tokenProvider.getAuthentication(token);
             SecurityContextHolder.getContext().setAuthentication(auth);
         }
-        chain.doFilter(request,response);
+
+        chain.doFilter(wrapper,response);
     }
 }
