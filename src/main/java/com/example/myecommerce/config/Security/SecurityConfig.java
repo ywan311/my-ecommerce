@@ -15,7 +15,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 
 @Configuration
 @RequiredArgsConstructor
-@EnableRedisHttpSession
+@EnableRedisHttpSession(maxInactiveIntervalInSeconds = 3600)
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     private final JwtTokenProvider tokenProvider;
 
@@ -46,7 +46,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                         .antMatchers("/api/v1/login","/swagger/**","/swagger-resources/**","/error").permitAll()
                         .anyRequest().authenticated()
                 .and()
-                    .addFilterBefore(new JwtAuthenticationFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
+                    .addFilterBefore(new GlobalFilter(tokenProvider), UsernamePasswordAuthenticationFilter.class)
                 .formLogin().disable();
     }
 }
