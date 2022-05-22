@@ -1,7 +1,12 @@
 package com.example.myecommerce.Web.ApiController;
 
+import com.example.myecommerce.Domain.Category.Category;
+import com.example.myecommerce.Domain.Category.CategoryRepository;
 import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Domain.Product.ProductRepository;
+import com.example.myecommerce.Domain.User.Role;
+import com.example.myecommerce.Domain.User.User;
+import com.example.myecommerce.Domain.User.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -9,11 +14,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import sun.security.util.Password;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -32,11 +41,26 @@ public class ImageFileApiControllerTest {
     @Autowired
     private ProductRepository productRepository;
 
+    @Autowired
+    private UserRepository userRepository;
+
+    @Autowired
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     private MockMvc mvc;
+
+    private Category test;
 
     @Before
     public void setUp() throws Exception {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        User user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
+        userRepository.save(user);
+        SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getAuthorities()));
+        test = categoryRepository.save(Category.builder().title("카테고리 테스트").build());
     }
 
     @Test
@@ -52,10 +76,12 @@ public class ImageFileApiControllerTest {
                 .title("상품 수정전")
                 .content("상품내용 수정전")
                 .price(123)
+                .category(test)
                 .build());
         System.out.println(file);
+        System.out.println(savedProduct);
 
-        mvc.perform(multipart("/api/v1/file").file(file))
+        mvc.perform(multipart("/api/v1/file/" + savedProduct.getId() + "/product").file(file))
                 .andExpect(status().isOk());
     }
 }

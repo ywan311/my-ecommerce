@@ -2,6 +2,9 @@ package com.example.myecommerce.Domain.Comment;
 
 import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecommerce.Domain.Product.ProductRepository;
+import com.example.myecommerce.Domain.User.Role;
+import com.example.myecommerce.Domain.User.User;
+import com.example.myecommerce.Domain.User.UserRepository;
 import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -24,10 +27,14 @@ public class CommentRepositoryTest {
     @Autowired
     ProductRepository productRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     @After
     public void cleaup() {
         commentRepository.deleteAll();
         productRepository.deleteAll();
+        userRepository.deleteAll();
     }
 
     @Test
@@ -39,17 +46,30 @@ public class CommentRepositoryTest {
         String prodContent = "상품 내용 테스트";
         int prodPrice = 10000;
 
+        String username = "유저 아이디 테스트";
+        String password = "유저 비밀번호 테스트";
+        String name = "유저이름 테스트";
+
+        User user = userRepository.save(User.builder()
+                .username(username)
+                .password(password)
+                .name(name)
+                .role(Role.USER)
+                .build());
+
         Product prod = productRepository.save(
                 Product.builder()
                         .title(prodTitle)
                         .content(prodContent)
                         .price(prodPrice)
+                        .user(user)
                         .build());
 
         commentRepository.save(
                 Comment.builder()
                         .title(commentTitle)
                         .product(prod)
+                        .user(user)
                         .content(commentContent)
                         .build());
 
