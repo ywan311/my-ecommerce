@@ -1,7 +1,11 @@
 package com.example.myecommerce.Domain.Product;
 
+import com.example.myecommerce.Domain.User.Role;
+import com.example.myecommerce.Domain.User.User;
+import com.example.myecommerce.Domain.User.UserRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +22,24 @@ import java.util.List;
 public class ProductRepositoryTest {
     @Autowired
     ProductRepository productRepository;
+    @Autowired
+    UserRepository userRepository;
+
+    private User user;
+
+    @Before
+    public void setUp(){
+        String username = "유저 아이디 테스트";
+        String password = "유저 비밀번호 테스트";
+        String name = "유저이름 테스트";
+
+        user = userRepository.save(User.builder()
+                .username(username)
+                .password(password)
+                .name(name)
+                .role(Role.USER)
+                .build());
+    }
 
     @After
     public void cleaup() {
@@ -36,6 +58,7 @@ public class ProductRepositoryTest {
                         .title(title)
                         .content(content)
                         .price(price)
+                        .user(user)
                         .build());
 
         //when
@@ -62,6 +85,7 @@ public class ProductRepositoryTest {
                         .title(title)
                         .content(content)
                         .price(price)
+                        .user(user)
                         .build());
 
         //when

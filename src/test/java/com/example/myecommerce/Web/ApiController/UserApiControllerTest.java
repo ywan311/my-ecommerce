@@ -31,6 +31,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringRunner.class)
@@ -83,7 +84,7 @@ public class UserApiControllerTest {
 
         String url = "http://localhost:"+port+"/api/v1/signup";
 
-        mvc.perform(get(url)
+        mvc.perform(post(url)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(new ObjectMapper().writeValueAsString(dto)))
                 .andExpect(status().isOk());
@@ -120,12 +121,13 @@ public class UserApiControllerTest {
 
         String url = "http://localhost:"+port+"/api/v1/login";
 
-        MvcResult result =mvc.perform(get(url)
+        MvcResult result =mvc.perform(post(url)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(new ObjectMapper().writeValueAsString(dto)))
                 .andExpect(status().isOk())
                 .andReturn();
         String token = result.getResponse().getContentAsString();
+        System.out.println(token);
 
         User test = userRepository.findByUsername(username);
         assertThat(provider.getUserPk(token)).isEqualTo(username);
