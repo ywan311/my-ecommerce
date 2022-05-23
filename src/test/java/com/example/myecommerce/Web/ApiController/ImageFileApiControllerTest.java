@@ -22,7 +22,6 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
-import sun.security.util.Password;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
@@ -53,11 +52,12 @@ public class ImageFileApiControllerTest {
     private MockMvc mvc;
 
     private Category test;
+    private User user;
 
     @Before
     public void setUp() throws Exception {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
-        User user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
+        user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
         userRepository.save(user);
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getAuthorities()));
         test = categoryRepository.save(Category.builder().title("카테고리 테스트").build());
@@ -77,6 +77,7 @@ public class ImageFileApiControllerTest {
                 .content("상품내용 수정전")
                 .price(123)
                 .category(test)
+                .user(user)
                 .build());
         System.out.println(file);
         System.out.println(savedProduct);

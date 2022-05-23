@@ -31,6 +31,7 @@ import org.springframework.web.context.WebApplicationContext;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -93,10 +94,7 @@ public class OrderApiControllerTest {
 
     @Test
     public void 주문정보() throws Exception {
-
         //given
-
-
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         User user = userRepository.findByUsername(authentication.getName());
         Product product = productRepository.findById(prodId).orElseThrow(() -> new IllegalArgumentException());
@@ -111,52 +109,16 @@ public class OrderApiControllerTest {
         //when
         MvcResult result = mvc.perform(get(url)
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new ObjectMapper().writeValueAsString(null)))
+                .content(new ObjectMapper().writeValueAsString(ArrayList.class)))
                 .andExpect(status().isOk())
                 .andReturn();
-
-        List<OrderListResDto> test = new ObjectMapper().readValue(result.getResponse().getContentAsString(), ArrayList.class);
+        ObjectMapper mapper = new ObjectMapper();
+        List<Object> list = mapper.readValue(result.getResponse().getContentAsString(), List.class);
+        List<OrderListResDto> test = list.stream().map(o ->mapper.convertValue(o,OrderListResDto.class)).collect(Collectors.toList());
 
         //then
         assertThat(test.get(0).getProductContent()).isEqualTo(product.getContent());
         assertThat(test.get(0).getProductTitle()).isEqualTo(product.getTitle());
-    }
-
-    @Test
-    public void Product_수정테스트() throws Exception {
-        //given
-        String expectedTitle = "상품명 수정 테스트";
-        String expectedContent = "상품내용 수정 테스트";
-        int expectedPrice = 123456;
-
-        Product savedProduct = productRepository.save(Product.builder()
-                .title("상품 수정전")
-                .content("상품내용 수정전")
-                .price(123)
-                .build());
-
-        Long updateId = savedProduct.getId();
-        ProductUpdateReqDto dto = ProductUpdateReqDto.builder()
-                .title(expectedTitle)
-                .content(expectedContent)
-                .price(expectedPrice)
-                .build();
-
-        String url = "http://localhost:" + port + "/api/v1/product/" + updateId;
-
-        //when
-        mvc.perform(put(url)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new ObjectMapper().writeValueAsString(dto)))
-                .andExpect(status().isOk());
-
-        //then
-        List<Product> list = productRepository.findAll();
-        assertThat(list.get(0).getTitle()).isEqualTo(expectedTitle);
-        assertThat(list.get(0).getContent()).isEqualTo(expectedContent);
-        assertThat(list.get(0).getPrice()).isEqualTo(expectedPrice);
-        assertThat(list.get(0).getComments().isEmpty()).isTrue();
-        assertThat(list.get(0).getCategory()).isNull();
     }
 
 }
