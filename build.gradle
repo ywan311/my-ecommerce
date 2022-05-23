@@ -53,10 +53,13 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     compile 'com.h2database:h2'
-    compileOnly 'org.projectlombok:lombok'
+    implementation 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'io.jsonwebtoken:jjwt:0.9.1'
 
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework.security:spring-security-test'
+
+    annotationProcessor 'org.projectlombok:lombok'
 }

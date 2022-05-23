@@ -61,11 +61,13 @@ public class CommentApiControllerTest {
 
     private MockMvc mvc;
 
+    private User user;
+
     @Before
     public void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
 
-        User user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
+        user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
         userRepository.save(user);
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getAuthorities()));
 
@@ -122,6 +124,7 @@ public class CommentApiControllerTest {
                 .title("수정전")
                 .content("수정전")
                 .product(test)
+                .user(user)
                 .build());
 
 
@@ -136,6 +139,7 @@ public class CommentApiControllerTest {
         assertThat(list.get(0).getTitle()).isEqualTo(expectedTitle);
         assertThat(list.get(0).getContent()).isEqualTo(expectedContent);
         assertThat(list.get(0).getProduct()).isEqualTo(test);
+        assertThat(list.get(0).getUser()).isEqualTo(user);
     }
 
     @After

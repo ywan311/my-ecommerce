@@ -58,11 +58,13 @@ public class ProductApiControllerTest {
 
     private MockMvc mvc;
 
+    private User user;
+
     private Category test;
     @Before
     public void setUp() throws Exception{
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
-        User user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
+        user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
         userRepository.save(user);
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getAuthorities()));
     }
@@ -122,6 +124,7 @@ public class ProductApiControllerTest {
                 .title("상품 수정전")
                 .content("상품내용 수정전")
                 .price(123)
+                .user(user)
                 .build());
 
         Long updateId = savedProduct.getId();
@@ -146,6 +149,7 @@ public class ProductApiControllerTest {
         assertThat(list.get(0).getPrice()).isEqualTo(expectedPrice);
         assertThat(list.get(0).getComments().isEmpty()).isTrue();
         assertThat(list.get(0).getCategory()).isNull();
+        assertThat(list.get(0).getUser()).isEqualTo(user);
     }
 
 }
