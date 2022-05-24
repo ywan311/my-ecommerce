@@ -1,65 +1,63 @@
-plugins {
-    id 'org.springframework.boot' version '2.1.9.RELEASE'
-    id 'io.spring.dependency-management' version '1.0.9.RELEASE'
-    id 'java'
-}
-
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '1.8'
-
-configurations {
-    developmentOnly
-    runtimeClasspath {
-        extendsFrom developmentOnly
+buildscript {
+    ext {
+        springBootVersion = '2.6.2'
     }
-    compileOnly {
-        extendsFrom annotationProcessor
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.11.RELEASE"
     }
 }
 
-ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
-sourceSets {
-    main {
-        resources {
-            srcDirs "src/main/resources", "src/main/resources-${profile}"
-        }
+// 하위 모든 프로젝트 공통 세팅
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'idea'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+
+    group 'com.example'
+    version '1.0-SNAPSHOT'
+
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
+    compileJava.options.encoding = 'UTF-8'
+
+    repositories {
+        mavenCentral()
+    }
+
+    // 하위 모듈에서 공통으로 사용하는 세팅 추가
+    dependencies {
+        compileOnly 'org.projectlombok:lombok'
+
+        annotationProcessor 'org.projectlombok:lombok'
+        annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.7.0'
+        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.7.0'
+    }
+
+    test {
+        useJUnitPlatform()
     }
 }
 
-repositories {
-    mavenCentral()
-}
+project(':ecommerce-core') {
+    // 공통 코드
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-web'
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-data-redis'
-    implementation 'org.springframework.session:spring-session-data-redis'
-    implementation 'io.springfox:springfox-swagger2:2.9.2'
-    implementation 'io.springfox:springfox-swagger-ui:2.9.2'
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.47'
-    implementation 'org.springframework.boot:spring-boot-starter-aop'
-    implementation 'org.apache.commons:commons-lang3'
-    implementation 'org.springframework.boot:spring-boot-configuration-processor:2.5.5'
-    implementation 'com.google.guava:guava:29.0-jre'
-    implementation 'org.apache.poi:poi:3.17'
-    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
-    implementation 'org.apache.httpcomponents:httpcore:4.4.14'
-    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:2.3.0'
+    bootJar { enabled = false } // core 은 bootJar 로 패키징 할 필요 없음
+    jar { enabled = true }
 
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    compile 'org.springframework.boot:spring-boot-starter-thymeleaf'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    compile 'com.h2database:h2'
-    implementation 'org.projectlombok:lombok'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    implementation 'org.springframework.boot:spring-boot-starter-security'
-    implementation 'io.jsonwebtoken:jjwt:0.9.1'
-
-    testCompile 'org.springframework.boot:spring-boot-starter-test'
-    testCompile 'org.springframework.security:spring-security-test'
-
-    annotationProcessor 'org.projectlombok:lombok'
+    dependencies {
+        implementation 'org.springframework.boot:spring-boot-starter-web'
+        implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+        annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+        implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.47'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation 'org.springframework.security:spring-security-test'
+        implementation 'org.springframework.boot:spring-boot-starter-security'
+    }
 }
