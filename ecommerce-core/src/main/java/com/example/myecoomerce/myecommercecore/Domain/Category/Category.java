@@ -1,7 +1,5 @@
 package com.example.myecoomerce.myecommercecore.Domain.Category;
 
-import com.example.myecommerce.Domain.BaseTimeEntity;
-import com.example.myecommerce.Domain.Product.Product;
 import com.example.myecoomerce.myecommercecore.Domain.BaseTimeEntity;
 import com.example.myecoomerce.myecommercecore.Domain.Product.Product;
 import com.fasterxml.jackson.annotation.JsonManagedReference;

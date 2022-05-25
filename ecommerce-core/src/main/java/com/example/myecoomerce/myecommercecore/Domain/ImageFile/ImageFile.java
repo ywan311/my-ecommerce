@@ -1,7 +1,7 @@
 package com.example.myecoomerce.myecommercecore.Domain.ImageFile;
 
-import com.example.myecommerce.Domain.BaseTimeEntity;
-import com.example.myecommerce.Domain.Product.Product;
+import com.example.myecoomerce.myecommercecore.Domain.BaseTimeEntity;
+import com.example.myecoomerce.myecommercecore.Domain.Product.Product;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Builder;
 import lombok.Getter;
