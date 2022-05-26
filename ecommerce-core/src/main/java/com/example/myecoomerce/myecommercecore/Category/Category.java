@@ -1,7 +1,7 @@
-package com.example.myecoomerce.myecommercecore.Domain.Category;
+package com.example.myecoomerce.myecommercecore.Category;
 
-import com.example.myecoomerce.myecommercecore.Domain.BaseTimeEntity;
-import com.example.myecoomerce.myecommercecore.Domain.Product.Product;
+import com.example.myecoomerce.myecommercecore.BaseTimeEntity;
+import com.example.myecoomerce.myecommercecore.Product.Product;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Builder;
 import lombok.Getter;

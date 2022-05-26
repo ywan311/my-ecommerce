@@ -2,4 +2,5 @@ rootProject.name = 'my-ecommerce'
 include 'ecommerce-core'
 include 'api'
 include 'view'
+include 'common'
 

@@ -1,6 +1,6 @@
 package com.example.myecommerce.api.dto.Order;
 
-import com.example.myecoomerce.myecommercecore.Domain.Order.Order;
+import com.example.myecoomerce.myecommercecore.Order.Order;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

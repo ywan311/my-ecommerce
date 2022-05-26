@@ -1,6 +1,6 @@
 package com.example.myecommerce.api.dto.User;
 
-import com.example.myecoomerce.myecommercecore.Domain.User.User;
+import com.example.myecoomerce.myecommercecore.User.User;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

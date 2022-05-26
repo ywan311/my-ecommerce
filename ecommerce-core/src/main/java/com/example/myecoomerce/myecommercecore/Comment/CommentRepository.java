@@ -1,4 +1,4 @@
-package com.example.myecoomerce.myecommercecore.Domain.Comment;
+package com.example.myecoomerce.myecommercecore.Comment;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

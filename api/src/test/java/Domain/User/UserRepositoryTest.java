@@ -1,8 +1,8 @@
 package Domain.User;
 
-import com.example.myecoomerce.myecommercecore.Domain.User.Role;
-import com.example.myecoomerce.myecommercecore.Domain.User.User;
-import com.example.myecoomerce.myecommercecore.Domain.User.UserRepository;
+import com.example.myecoomerce.myecommercecore.User.Role;
+import com.example.myecoomerce.myecommercecore.User.User;
+import com.example.myecoomerce.myecommercecore.User.UserRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

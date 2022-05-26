@@ -4,7 +4,7 @@ import com.example.myecommerce.api.config.Security.JwtTokenProvider;
 import com.example.myecommerce.api.dto.User.*;
 import com.example.myecommerce.api.service.User.CustomUserDetailService;
 import com.example.myecommerce.api.service.User.UserService;
-import com.example.myecoomerce.myecommercecore.Domain.User.User;
+import com.example.myecoomerce.myecommercecore.User.User;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

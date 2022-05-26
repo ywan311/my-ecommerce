@@ -1,12 +1,12 @@
 package com.example.myecommerce.api.service.Product;
 
 import com.example.myecommerce.api.dto.Product.*;
-import com.example.myecoomerce.myecommercecore.Domain.Category.Category;
-import com.example.myecoomerce.myecommercecore.Domain.Category.CategoryRepository;
-import com.example.myecoomerce.myecommercecore.Domain.Product.Product;
-import com.example.myecoomerce.myecommercecore.Domain.Product.ProductRepository;
-import com.example.myecoomerce.myecommercecore.Domain.User.User;
-import com.example.myecoomerce.myecommercecore.Domain.User.UserRepository;
+import com.example.myecoomerce.myecommercecore.Category.Category;
+import com.example.myecoomerce.myecommercecore.Category.CategoryRepository;
+import com.example.myecoomerce.myecommercecore.Product.Product;
+import com.example.myecoomerce.myecommercecore.Product.ProductRepository;
+import com.example.myecoomerce.myecommercecore.User.User;
+import com.example.myecoomerce.myecommercecore.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

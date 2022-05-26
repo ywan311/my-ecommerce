@@ -1,10 +1,10 @@
-import com.example.myecoomerce.myecommercecore.Domain.Category.Category;
-import com.example.myecoomerce.myecommercecore.Domain.Category.CategoryRepository;
-import com.example.myecoomerce.myecommercecore.Domain.Product.Product;
-import com.example.myecoomerce.myecommercecore.Domain.Product.ProductRepository;
-import com.example.myecoomerce.myecommercecore.Domain.User.Role;
-import com.example.myecoomerce.myecommercecore.Domain.User.User;
-import com.example.myecoomerce.myecommercecore.Domain.User.UserRepository;
+import com.example.myecoomerce.myecommercecore.Category.Category;
+import com.example.myecoomerce.myecommercecore.Category.CategoryRepository;
+import com.example.myecoomerce.myecommercecore.Product.Product;
+import com.example.myecoomerce.myecommercecore.Product.ProductRepository;
+import com.example.myecoomerce.myecommercecore.User.Role;
+import com.example.myecoomerce.myecommercecore.User.User;
+import com.example.myecoomerce.myecommercecore.User.UserRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;

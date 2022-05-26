@@ -1,4 +1,4 @@
-package com.example.myecoomerce.myecommercecore.Domain.Category;
+package com.example.myecoomerce.myecommercecore.Category;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

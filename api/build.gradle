@@ -2,7 +2,7 @@ ext.profile = (!project.hasProperty('profile') || !profile) ? 'local' : profile
 sourceSets {
     main {
         resources {
-            srcDirs "src/main/resources", "src/main/resources-${profile}"
+            srcDirs "src/main/resources-${profile}"
         }
     }
 }
@@ -11,7 +11,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     implementation 'org.springframework.session:spring-session-data-redis'
     //DB
-    implementation group: 'mysql', name: 'mysql-connector-java', version: '5.1.47'
+    implementation group: 'mysql', name: 'mysql-connector-java', version: '8.0.28'
     testImplementation 'com.h2database:h2'
     //aop
     implementation 'org.springframework.boot:spring-boot-starter-aop'

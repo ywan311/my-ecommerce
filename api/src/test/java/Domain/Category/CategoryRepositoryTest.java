@@ -1,8 +1,8 @@
 package Domain.Category;
 
 
-import com.example.myecoomerce.myecommercecore.Domain.Category.Category;
-import com.example.myecoomerce.myecommercecore.Domain.Category.CategoryRepository;
+import com.example.myecoomerce.myecommercecore.Category.Category;
+import com.example.myecoomerce.myecommercecore.Category.CategoryRepository;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;

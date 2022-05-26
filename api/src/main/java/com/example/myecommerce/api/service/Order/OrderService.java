@@ -1,12 +1,12 @@
 package com.example.myecommerce.api.service.Order;
 
 import com.example.myecommerce.api.dto.Order.OrderListResDto;
-import com.example.myecoomerce.myecommercecore.Domain.Order.Order;
-import com.example.myecoomerce.myecommercecore.Domain.Order.OrderRepository;
-import com.example.myecoomerce.myecommercecore.Domain.Product.Product;
-import com.example.myecoomerce.myecommercecore.Domain.Product.ProductRepository;
-import com.example.myecoomerce.myecommercecore.Domain.User.User;
-import com.example.myecoomerce.myecommercecore.Domain.User.UserRepository;
+import com.example.myecoomerce.myecommercecore.Order.Order;
+import com.example.myecoomerce.myecommercecore.Order.OrderRepository;
+import com.example.myecoomerce.myecommercecore.Product.Product;
+import com.example.myecoomerce.myecommercecore.Product.ProductRepository;
+import com.example.myecoomerce.myecommercecore.User.User;
+import com.example.myecoomerce.myecommercecore.User.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

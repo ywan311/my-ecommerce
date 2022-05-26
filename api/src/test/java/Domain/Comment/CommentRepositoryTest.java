@@ -1,12 +1,12 @@
 package Domain.Comment;
 
-import com.example.myecoomerce.myecommercecore.Domain.Comment.Comment;
-import com.example.myecoomerce.myecommercecore.Domain.Comment.CommentRepository;
-import com.example.myecoomerce.myecommercecore.Domain.Product.Product;
-import com.example.myecoomerce.myecommercecore.Domain.Product.ProductRepository;
-import com.example.myecoomerce.myecommercecore.Domain.User.Role;
-import com.example.myecoomerce.myecommercecore.Domain.User.User;
-import com.example.myecoomerce.myecommercecore.Domain.User.UserRepository;
+import com.example.myecoomerce.myecommercecore.Comment.Comment;
+import com.example.myecoomerce.myecommercecore.Comment.CommentRepository;
+import com.example.myecoomerce.myecommercecore.Product.Product;
+import com.example.myecoomerce.myecommercecore.Product.ProductRepository;
+import com.example.myecoomerce.myecommercecore.User.Role;
+import com.example.myecoomerce.myecommercecore.User.User;
+import com.example.myecoomerce.myecommercecore.User.UserRepository;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

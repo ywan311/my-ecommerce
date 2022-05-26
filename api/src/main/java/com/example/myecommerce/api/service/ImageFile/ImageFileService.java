@@ -2,10 +2,10 @@ package com.example.myecommerce.api.service.ImageFile;
 
 import com.example.myecommerce.api.config.FileUploadProperties;
 import com.example.myecommerce.api.dto.File.ProductFileUploadReq;
-import com.example.myecoomerce.myecommercecore.Domain.ImageFile.ImageFile;
-import com.example.myecoomerce.myecommercecore.Domain.ImageFile.ImageFileRepository;
-import com.example.myecoomerce.myecommercecore.Domain.Product.Product;
-import com.example.myecoomerce.myecommercecore.Domain.Product.ProductRepository;
+import com.example.myecoomerce.myecommercecore.ImageFile.ImageFile;
+import com.example.myecoomerce.myecommercecore.ImageFile.ImageFileRepository;
+import com.example.myecoomerce.myecommercecore.Product.Product;
+import com.example.myecoomerce.myecommercecore.Product.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,8 +2,8 @@ package com.example.myecommerce.api.service.Category;
 
 import com.example.myecommerce.api.dto.Category.CategoryReqDto;
 import com.example.myecommerce.api.dto.Category.CategoryResDto;
-import com.example.myecoomerce.myecommercecore.Domain.Category.Category;
-import com.example.myecoomerce.myecommercecore.Domain.Category.CategoryRepository;
+import com.example.myecoomerce.myecommercecore.Category.Category;
+import com.example.myecoomerce.myecommercecore.Category.CategoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;

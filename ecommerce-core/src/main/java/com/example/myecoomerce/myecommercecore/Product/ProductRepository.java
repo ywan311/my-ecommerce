@@ -1,4 +1,4 @@
-package com.example.myecoomerce.myecommercecore.Domain.Product;
+package com.example.myecoomerce.myecommercecore.Product;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,4 +1,4 @@
-package com.example.myecoomerce.myecommercecore.Domain.ImageFile;
+package com.example.myecoomerce.myecommercecore.ImageFile;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

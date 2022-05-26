@@ -1,7 +1,7 @@
 package com.example.myecommerce.api.dto.Product;
 
 import com.example.myecommerce.api.dto.Comment.CommentResDto;
-import com.example.myecoomerce.myecommercecore.Domain.Product.Product;
+import com.example.myecoomerce.myecommercecore.Product.Product;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

@@ -1,7 +1,7 @@
 package com.example.myecommerce.api.controller;
 
 import com.example.myecommerce.api.service.ImageFile.ImageFileService;
-import com.example.myecoomerce.myecommercecore.Domain.ImageFile.ImageFile;
+import com.example.myecoomerce.myecommercecore.ImageFile.ImageFile;
 import lombok.RequiredArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.FileUploadException;
 import org.springframework.web.bind.annotation.*;

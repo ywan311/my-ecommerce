@@ -1,6 +1,6 @@
 package com.example.myecommerce.api.dto.Comment;
 
-import com.example.myecoomerce.myecommercecore.Domain.Comment.Comment;
+import com.example.myecoomerce.myecommercecore.Comment.Comment;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

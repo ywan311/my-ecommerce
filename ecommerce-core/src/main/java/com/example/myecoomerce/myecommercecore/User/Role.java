@@ -1,4 +1,4 @@
-package com.example.myecoomerce.myecommercecore.Domain.User;
+package com.example.myecoomerce.myecommercecore.User;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

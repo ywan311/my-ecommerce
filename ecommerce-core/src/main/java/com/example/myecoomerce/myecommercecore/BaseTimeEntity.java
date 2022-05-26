@@ -1,4 +1,4 @@
-package com.example.myecoomerce.myecommercecore.Domain;
+package com.example.myecoomerce.myecommercecore;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

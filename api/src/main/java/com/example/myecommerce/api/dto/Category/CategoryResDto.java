@@ -1,6 +1,6 @@
 package com.example.myecommerce.api.dto.Category;
 
-import com.example.myecoomerce.myecommercecore.Domain.Category.Category;
+import com.example.myecoomerce.myecommercecore.Category.Category;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
