@@ -1,4 +1,4 @@
-package Domain.Product;
+package com.example.myecommerce.api.domain.Product;
 
 import com.example.myecoomerce.myecommercecore.Product.Product;
 import com.example.myecoomerce.myecommercecore.Product.ProductRepository;
@@ -8,14 +8,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @ExtendWith(SpringExtension.class)
-@DataJpaTest
+@SpringBootTest
 public class ProductRepositoryTest {
     @Autowired
     ProductRepository productRepository;

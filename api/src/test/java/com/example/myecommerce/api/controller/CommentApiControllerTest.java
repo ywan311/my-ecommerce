@@ -1,3 +1,5 @@
+package com.example.myecommerce.api.controller;
+
 import com.example.myecommerce.api.dto.Comment.CommentReqDto;
 import com.example.myecoomerce.myecommercecore.Comment.Comment;
 import com.example.myecoomerce.myecommercecore.Comment.CommentRepository;
@@ -7,10 +9,8 @@ import com.example.myecoomerce.myecommercecore.User.Role;
 import com.example.myecoomerce.myecommercecore.User.User;
 import com.example.myecoomerce.myecommercecore.User.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -18,7 +18,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,7 +31,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
 public class CommentApiControllerTest {
@@ -61,8 +61,8 @@ public class CommentApiControllerTest {
 
     private User user;
 
-    @Before
-    public void setUp() {
+    @BeforeEach
+    void setUp() {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
 
         user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
@@ -140,7 +140,7 @@ public class CommentApiControllerTest {
         assertThat(list.get(0).getUser()).isEqualTo(user);
     }
 
-    @After
+    @AfterEach
     public void cleanUp() {
         commentRepository.deleteAll();
         productRepository.deleteAll();

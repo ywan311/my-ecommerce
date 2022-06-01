@@ -1,8 +1,9 @@
-package Domain.User;
+package com.example.myecommerce.api.domain.User;
 
 import com.example.myecoomerce.myecommercecore.User.Role;
 import com.example.myecoomerce.myecommercecore.User.User;
 import com.example.myecoomerce.myecommercecore.User.UserRepository;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +19,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 public class UserRepositoryTest {
 
     @Autowired
-    private UserRepository userRepository;
+    private static UserRepository userRepository;
 
 //    @AfterAll
-//    public void cleanUp() {
+//    static void cleanUp() {
 //        userRepository.deleteAll();
 //    }
 

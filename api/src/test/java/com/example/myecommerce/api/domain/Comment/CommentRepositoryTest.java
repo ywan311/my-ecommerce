@@ -1,4 +1,4 @@
-package Domain.Comment;
+package com.example.myecommerce.api.domain.Comment;
 
 import com.example.myecoomerce.myecommercecore.Comment.Comment;
 import com.example.myecoomerce.myecommercecore.Comment.CommentRepository;
