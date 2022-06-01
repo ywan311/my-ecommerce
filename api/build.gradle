@@ -17,7 +17,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.apache.commons:commons-lang3'
     implementation 'org.apache.poi:poi:3.17'
-    implementation 'com.googlecode.json-simple:json-simple:1.1.1'
+    implementation ('com.googlecode.json-simple:json-simple:1.1.1'){
+        exclude group : 'junit'
+    }
     implementation 'org.apache.httpcomponents:httpcore:4.4.14'
     implementation 'com.google.guava:guava:29.0-jre'
     //JWT

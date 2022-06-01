@@ -1,16 +1,16 @@
+package com.example.myecommerce.api.controller;
+
 import com.example.myecommerce.api.dto.Order.OrderListResDto;
 import com.example.myecoomerce.myecommercecore.Order.Order;
+import com.example.myecoomerce.myecommercecore.Order.OrderRepository;
 import com.example.myecoomerce.myecommercecore.Product.Product;
 import com.example.myecoomerce.myecommercecore.Product.ProductRepository;
 import com.example.myecoomerce.myecommercecore.User.Role;
 import com.example.myecoomerce.myecommercecore.User.User;
 import com.example.myecoomerce.myecommercecore.User.UserRepository;
-import com.example.myecoomerce.myecommercecore.Order.OrderRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.web.server.LocalServerPort;
@@ -19,7 +19,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -32,10 +32,9 @@ import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
 public class OrderApiControllerTest {
@@ -61,7 +60,7 @@ public class OrderApiControllerTest {
 
     private Long prodId;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
         mvc = MockMvcBuilders.webAppContextSetup(context).build();
         User user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
@@ -82,7 +81,7 @@ public class OrderApiControllerTest {
     }
 
 
-    @After
+    @AfterEach
     public void tearDown() throws Exception {
         orderRepository.deleteAll();
         productRepository.deleteAll();
