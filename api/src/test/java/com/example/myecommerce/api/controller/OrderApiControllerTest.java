@@ -9,7 +9,9 @@ import com.example.myecoomerce.myecommercecore.User.Role;
 import com.example.myecoomerce.myecommercecore.User.User;
 import com.example.myecoomerce.myecommercecore.User.UserRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -25,13 +27,16 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -62,7 +67,11 @@ public class OrderApiControllerTest {
 
     @BeforeEach
     public void setUp() throws Exception {
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+                .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
+                .alwaysDo(print())
+                .build();
+
         User user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
         userRepository.save(user);
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getAuthorities()));
@@ -104,13 +113,14 @@ public class OrderApiControllerTest {
 
         //when
         MvcResult result = mvc.perform(get(url)
-                .contentType(MediaType.APPLICATION_JSON_UTF8)
-                .content(new ObjectMapper().writeValueAsString(ArrayList.class)))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .characterEncoding(StandardCharsets.UTF_8)
+                        .content(new ObjectMapper().writeValueAsString(ArrayList.class)))
                 .andExpect(status().isOk())
                 .andReturn();
         ObjectMapper mapper = new ObjectMapper();
         List<Object> list = mapper.readValue(result.getResponse().getContentAsString(), List.class);
-        List<OrderListResDto> test = list.stream().map(o ->mapper.convertValue(o,OrderListResDto.class)).collect(Collectors.toList());
+        List<OrderListResDto> test = list.stream().map(o -> mapper.convertValue(o, OrderListResDto.class)).collect(Collectors.toList());
 
         //then
         assertThat(test.get(0).getProductContent()).isEqualTo(product.getContent());
