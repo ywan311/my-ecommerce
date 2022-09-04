@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -16,6 +17,7 @@ import org.springframework.session.data.redis.config.annotation.web.http.EnableR
 @Configuration
 @RequiredArgsConstructor
 @EnableRedisHttpSession(maxInactiveIntervalInSeconds = 3600)
+@EnableWebSecurity
 public class SecurityConfig  extends WebSecurityConfigurerAdapter {
     private final GlobalFilter globalFilter;
 
@@ -44,7 +46,7 @@ public class SecurityConfig  extends WebSecurityConfigurerAdapter {
                 .and()
                     .authorizeRequests()
                         .antMatchers("/api/v1/login","/swagger/**","/swagger-resources/**","/error").permitAll()
-                        .anyRequest().authenticated()
+                        .anyRequest().permitAll()
                 .and()
                     .addFilterBefore(globalFilter, UsernamePasswordAuthenticationFilter.class)
                 .formLogin().disable();

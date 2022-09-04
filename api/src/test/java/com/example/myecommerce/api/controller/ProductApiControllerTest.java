@@ -24,12 +24,14 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -61,7 +63,10 @@ public class ProductApiControllerTest {
     private Category test;
     @BeforeEach
     public void setUp() throws Exception{
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+                .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
+                .alwaysDo(print())
+                .build();
         user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
         userRepository.save(user);
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getAuthorities()));
