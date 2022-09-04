@@ -38,6 +38,9 @@ subprojects {
         annotationProcessor 'org.projectlombok:lombok'
         annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
+        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.2'
+        testImplementation 'org.junit.platform:junit-platform-launcher:1.5.2'
+        testImplementation 'org.junit.jupiter:junit-jupiter:5.5.2'
         testImplementation 'org.springframework.boot:spring-boot-starter-test'
         testImplementation 'org.springframework.security:spring-security-test'
         implementation 'org.springframework.boot:spring-boot-starter-security'
@@ -64,6 +67,7 @@ project(':api') {
 
     dependencies {
         implementation project(':ecommerce-core')
+        testImplementation(project(":ecommerce-core"))
     }
 }
 project(':view') {

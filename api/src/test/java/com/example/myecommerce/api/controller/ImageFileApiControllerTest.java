@@ -1,3 +1,5 @@
+package com.example.myecommerce.api.controller;
+
 import com.example.myecoomerce.myecommercecore.Category.Category;
 import com.example.myecoomerce.myecommercecore.Category.CategoryRepository;
 import com.example.myecoomerce.myecommercecore.Product.Product;
@@ -5,9 +7,10 @@ import com.example.myecoomerce.myecommercecore.Product.ProductRepository;
 import com.example.myecoomerce.myecommercecore.User.Role;
 import com.example.myecoomerce.myecommercecore.User.User;
 import com.example.myecoomerce.myecommercecore.User.UserRepository;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
@@ -15,16 +18,18 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.WebApplicationContext;
+import org.springframework.web.filter.CharacterEncodingFilter;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @Transactional
 public class ImageFileApiControllerTest {
@@ -51,9 +56,12 @@ public class ImageFileApiControllerTest {
     private Category test;
     private User user;
 
-    @Before
+    @BeforeEach
     public void setUp() throws Exception {
-        mvc = MockMvcBuilders.webAppContextSetup(context).build();
+        mvc = MockMvcBuilders.webAppContextSetup(context)
+                .addFilters(new CharacterEncodingFilter("UTF-8", true))  // 필터 추가
+                .alwaysDo(print())
+                .build();
         user = User.builder().username("testusername").password(passwordEncoder.encode("test")).role(Role.USER).name("nanananame").build();
         userRepository.save(user);
         SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, user.getAuthorities()));
